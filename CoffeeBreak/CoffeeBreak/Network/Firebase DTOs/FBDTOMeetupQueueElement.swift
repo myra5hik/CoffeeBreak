@@ -43,3 +43,25 @@ extension FBDTOMeetupQueueElement: IFirebaseDTO {
         )
     }
 }
+
+// MARK: - IDomainModelRepresentable conformance
+
+extension FBDTOMeetupQueueElement: IDomainModelRepresentable {
+    init(domainModel: MeetupQueueElement) {
+        self.init(
+            id: domainModel.id,
+            timeExpires: domainModel.timeExpires,
+            topicIds: domainModel.topicIds,
+            userId: domainModel.userId
+        )
+    }
+
+    func toDomainModel() -> MeetupQueueElement {
+        return MeetupQueueElement(
+            id: self.id,
+            timeExpires: self.timeExpires,
+            topicIds: self.topicIds,
+            userId: self.userId
+        )
+    }
+}
