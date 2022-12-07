@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4107B12E2940CE5D0022507E /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B12B2940CE5D0022507E /* HistoryView.swift */; };
+		4107B12F2940CE5D0022507E /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B12C2940CE5D0022507E /* ProfileView.swift */; };
+		4107B1302940CE5D0022507E /* MeetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B12D2940CE5D0022507E /* MeetView.swift */; };
+		4107B1322940D1ED0022507E /* CoffeeColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1312940D1ED0022507E /* CoffeeColors.swift */; };
+		4107B1362940DCD70022507E /* MeetActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1352940DCD70022507E /* MeetActiveView.swift */; };
+		4107B1382940E32C0022507E /* InterestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1372940E32C0022507E /* InterestsView.swift */; };
+		4107B13A2940E6FB0022507E /* HistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1392940E6FB0022507E /* HistoryItem.swift */; };
 		B65C104A293FA59D007D2B70 /* CoffeeBreakApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C1049293FA59D007D2B70 /* CoffeeBreakApp.swift */; };
 		B65C104C293FA59D007D2B70 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C104B293FA59D007D2B70 /* ContentView.swift */; };
 		B65C104E293FA59E007D2B70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B65C104D293FA59E007D2B70 /* Assets.xcassets */; };
@@ -18,6 +25,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4107B12B2940CE5D0022507E /* HistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HistoryView.swift; path = ../../../testingAgainNC2/testingAgainNC2/HistoryView.swift; sourceTree = "<group>"; };
+		4107B12C2940CE5D0022507E /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileView.swift; path = ../../../testingAgainNC2/testingAgainNC2/ProfileView.swift; sourceTree = "<group>"; };
+		4107B12D2940CE5D0022507E /* MeetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MeetView.swift; path = ../../../testingAgainNC2/testingAgainNC2/MeetView.swift; sourceTree = "<group>"; };
+		4107B1312940D1ED0022507E /* CoffeeColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeColors.swift; sourceTree = "<group>"; };
+		4107B1352940DCD70022507E /* MeetActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetActiveView.swift; sourceTree = "<group>"; };
+		4107B1372940E32C0022507E /* InterestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsView.swift; sourceTree = "<group>"; };
+		4107B1392940E6FB0022507E /* HistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItem.swift; sourceTree = "<group>"; };
 		B65C1046293FA59D007D2B70 /* CoffeeBreak.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoffeeBreak.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B65C1049293FA59D007D2B70 /* CoffeeBreakApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeBreakApp.swift; sourceTree = "<group>"; };
 		B65C104B293FA59D007D2B70 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -59,6 +73,13 @@
 		B65C1048293FA59D007D2B70 /* CoffeeBreak */ = {
 			isa = PBXGroup;
 			children = (
+				4107B12B2940CE5D0022507E /* HistoryView.swift */,
+				4107B1392940E6FB0022507E /* HistoryItem.swift */,
+				4107B12D2940CE5D0022507E /* MeetView.swift */,
+				4107B1352940DCD70022507E /* MeetActiveView.swift */,
+				4107B1312940D1ED0022507E /* CoffeeColors.swift */,
+				4107B12C2940CE5D0022507E /* ProfileView.swift */,
+				4107B1372940E32C0022507E /* InterestsView.swift */,
 				B65C1049293FA59D007D2B70 /* CoffeeBreakApp.swift */,
 				B65C104B293FA59D007D2B70 /* ContentView.swift */,
 				B65C105E293FAFF8007D2B70 /* Network */,
@@ -164,8 +185,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				B65C1060293FB1AB007D2B70 /* FirebaseManager.swift in Sources */,
+				4107B1362940DCD70022507E /* MeetActiveView.swift in Sources */,
+				4107B1302940CE5D0022507E /* MeetView.swift in Sources */,
+				4107B13A2940E6FB0022507E /* HistoryItem.swift in Sources */,
+				4107B12E2940CE5D0022507E /* HistoryView.swift in Sources */,
+				4107B12F2940CE5D0022507E /* ProfileView.swift in Sources */,
 				B65C104C293FA59D007D2B70 /* ContentView.swift in Sources */,
 				B65C104A293FA59D007D2B70 /* CoffeeBreakApp.swift in Sources */,
+				4107B1382940E32C0022507E /* InterestsView.swift in Sources */,
+				4107B1322940D1ED0022507E /* CoffeeColors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
