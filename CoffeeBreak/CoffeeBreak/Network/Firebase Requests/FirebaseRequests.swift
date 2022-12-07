@@ -27,8 +27,16 @@ struct MeetupQueueRequest: IFirebaseCollectionRequest {
     let collection = FirebaseCollectionKey.meetupQueue.rawValue
 }
 
+struct UserRequest: IFirebaseDocumentRequest {
+    typealias DTO = FBDTOPerson
+    let collection = FirebaseCollectionKey.userInfo.rawValue
+    let userId: String
+    var document: String { userId }
+}
+
 // MARK: - Firebase Collection Keys
 
 enum FirebaseCollectionKey: String, Hashable {
     case meetupQueue = "meetup-queue"
+    case userInfo = "user-info"
 }
