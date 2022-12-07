@@ -27,6 +27,12 @@ protocol IFirebaseManager {
 final class FirebaseManager: IFirebaseManager {
     private let db = Firestore.firestore()
     private var listeners = [ListenerID: ListenerRegistration]()
+    
+    deinit {
+        for (_, listener) in listeners {
+            listener.remove()
+        }
+    }
 
     func loadCollection<R: IFirebaseCollectionRequest>(_ request: R, _ completion: Handler<[R.DTO]>?) {
         db.collection(request.collection).getDocuments { [weak self] (snapshot, error) in

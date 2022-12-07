@@ -29,6 +29,12 @@ final class NetworkService<M: IFirebaseManager>: INetworkService {
     init(manager: M = FirebaseManager()) {
         self.manager = manager
     }
+    
+    deinit {
+        for (_, listener) in subscriptions {
+            manager.cancel(id: listener)
+        }
+    }
 
     func loadUserInfo(_ id: Person.ID, _ handler: Handler<Person>?) {
         let request = UserRequest(userId: id)
