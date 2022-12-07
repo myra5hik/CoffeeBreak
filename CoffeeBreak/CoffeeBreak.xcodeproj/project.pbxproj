@@ -80,6 +80,13 @@
 			isa = PBXGroup;
 			children = (
 				B65C104B293FA59D007D2B70 /* ContentView.swift */,
+				B65C10792940FD31007D2B70 /* HistoryView.swift */,
+				4107B1392940E6FB0022507E /* HistoryItem.swift */,
+				B65C10772940FD2B007D2B70 /* MeetView.swift */,
+				4107B1352940DCD70022507E /* MeetActiveView.swift */,
+				4107B1312940D1ED0022507E /* CoffeeColors.swift */,
+				B65C10752940FD1F007D2B70 /* ProfileView.swift */,
+				4107B1372940E32C0022507E /* InterestsView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -103,20 +110,13 @@
 		B65C1048293FA59D007D2B70 /* CoffeeBreak */ = {
 			isa = PBXGroup;
 			children = (
-				B65C10792940FD31007D2B70 /* HistoryView.swift */,
-				4107B1392940E6FB0022507E /* HistoryItem.swift */,
-				B65C10772940FD2B007D2B70 /* MeetView.swift */,
-				4107B1352940DCD70022507E /* MeetActiveView.swift */,
-				4107B1312940D1ED0022507E /* CoffeeColors.swift */,
-				B65C10752940FD1F007D2B70 /* ProfileView.swift */,
-				4107B1372940E32C0022507E /* InterestsView.swift */,
+				8070C4805DA1D7F1E1636975 /* App */,
+				D96A3C3002D982C25418E320 /* Model */,
+				AB47FDC4AE04F33320BD126E /* UI */,
 				B65C105E293FAFF8007D2B70 /* Network */,
 				B65C104D293FA59E007D2B70 /* Assets.xcassets */,
 				B65C1057293FA6DF007D2B70 /* GoogleService-Info.plist */,
 				B65C104F293FA59E007D2B70 /* Preview Content */,
-				8070C4805DA1D7F1E1636975 /* App */,
-				D96A3C3002D982C25418E320 /* Model */,
-				AB47FDC4AE04F33320BD126E /* UI */,
 			);
 			path = CoffeeBreak;
 			sourceTree = "<group>";
