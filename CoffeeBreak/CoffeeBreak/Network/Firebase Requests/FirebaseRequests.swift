@@ -22,16 +22,16 @@ protocol IFirebaseDocumentRequest {
 
 // MARK: - Request Implementations
 
-struct MeetupQueueRequest: IFirebaseCollectionRequest {
-    typealias DTO = FBDTOMeetupQueueElement
-    let collection = FirebaseCollectionKey.meetupQueue.rawValue
-}
-
 struct UserRequest: IFirebaseDocumentRequest {
     typealias DTO = FBDTOPerson
     let collection = FirebaseCollectionKey.userInfo.rawValue
     let userId: String
     var document: String { userId }
+}
+
+struct MeetupQueueRequest: IFirebaseCollectionRequest {
+    typealias DTO = FBDTOMeetupQueueElement
+    let collection = FirebaseCollectionKey.meetupQueue.rawValue
 }
 
 // MARK: - Firebase Collection Keys

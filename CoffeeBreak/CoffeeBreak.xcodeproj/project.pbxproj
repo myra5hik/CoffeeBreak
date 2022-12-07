@@ -21,6 +21,7 @@
 		B65C106A2940E578007D2B70 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C10692940E578007D2B70 /* NetworkService.swift */; };
 		B65C106D2940E59C007D2B70 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C106C2940E59C007D2B70 /* Person.swift */; };
 		B65C10702940E609007D2B70 /* FBDTOPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C106F2940E609007D2B70 /* FBDTOPerson.swift */; };
+		B65C10722940F6A4007D2B70 /* MeetupQueueElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C10712940F6A4007D2B70 /* MeetupQueueElement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		B65C10692940E578007D2B70 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		B65C106C2940E59C007D2B70 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		B65C106F2940E609007D2B70 /* FBDTOPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBDTOPerson.swift; sourceTree = "<group>"; };
+		B65C10712940F6A4007D2B70 /* MeetupQueueElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetupQueueElement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,8 +107,8 @@
 			isa = PBXGroup;
 			children = (
 				B65C10642940CB4F007D2B70 /* IFirebaseDTO Protocol.swift */,
-				B65C10622940C1DA007D2B70 /* FBDTOMeetupQueueElement.swift */,
 				B65C106F2940E609007D2B70 /* FBDTOPerson.swift */,
+				B65C10622940C1DA007D2B70 /* FBDTOMeetupQueueElement.swift */,
 			);
 			path = "Firebase DTOs";
 			sourceTree = "<group>";
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				B65C106C2940E59C007D2B70 /* Person.swift */,
+				B65C10712940F6A4007D2B70 /* MeetupQueueElement.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				B65C104C293FA59D007D2B70 /* ContentView.swift in Sources */,
 				B65C10632940C1DA007D2B70 /* FBDTOMeetupQueueElement.swift in Sources */,
 				B65C10652940CB4F007D2B70 /* IFirebaseDTO Protocol.swift in Sources */,
+				B65C10722940F6A4007D2B70 /* MeetupQueueElement.swift in Sources */,
 				B65C10672940DF33007D2B70 /* FirebaseRequests.swift in Sources */,
 				B65C104A293FA59D007D2B70 /* CoffeeBreakApp.swift in Sources */,
 				B65C106D2940E59C007D2B70 /* Person.swift in Sources */,
