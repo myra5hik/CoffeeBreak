@@ -6,47 +6,17 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseFirestore
 
 // MARK: - IFirebaseManager Protocol
 
 protocol IFirebaseManager {
     typealias Handler<T> = (Result<T, Error>) -> Void
 
-    // Keyed
-    func loadAllDocuments(collection: FBCollectionKey, _ completion: Handler<[[String: Any]]>?)
-    func loadDocument(collection: FBCollectionKey, document: String, _ completion: Handler<[String: Any]>?)
-    func subscribeToCollection(collection: FBCollectionKey, onUpdate: Handler<[[String: Any]]>?)
-    func subscribeToDocument(collection: FBCollectionKey, doc: String, onUpdate: Handler<[String: Any]>?)
-    // Raw
-    func loadAllDocuments(collection: String, _ completion: Handler<[[String: Any]]>?)
-    func loadDocument(collection: String, document: String, _ completion: Handler<[String: Any]>?)
-    func subscribeToCollection(collection: String, onUpdate handler: Handler<[[String: Any]]>?)
-    func subscribeToDocument(collection: String, doc: String, onUpdate handler: Handler<[String: Any]>?)
-}
-
-extension IFirebaseManager {
-    func loadAllDocuments(collection: FBCollectionKey, _ completion: Handler<[[String: Any]]>?) {
-        loadAllDocuments(collection: collection.rawValue, completion)
-    }
-
-    func loadDocument(collection: FBCollectionKey, document: String, _ completion: Handler<[String: Any]>?) {
-        loadDocument(collection: collection.rawValue, document: document, completion)
-    }
-
-    func subscribeToCollection(collection: FBCollectionKey, onUpdate: Handler<[[String: Any]]>?) {
-        subscribeToCollection(collection: collection.rawValue, onUpdate: onUpdate)
-    }
-
-    func subscribeToDocument(collection: FBCollectionKey, doc: String, onUpdate: Handler<[String: Any]>?) {
-        subscribeToDocument(collection: collection.rawValue, doc: doc, onUpdate: onUpdate)
-    }
-}
-
-// MARK: - Firebase Collection Keys
-
-enum FBCollectionKey: String, Hashable {
-    case meetupQueue = "meetup-queue"
+    func loadCollection<R: IFirebaseCollectionRequest>(_ request: R, _ completion: Handler<[R.DTO]>?)
+    func loadDocument<R: IFirebaseDocumentRequest>(_ request: R, _ completion: Handler<R.DTO>?)
+    func subscribeToCollection<R: IFirebaseCollectionRequest>(_ request: R, onUpdate: Handler<[R.DTO]>?)
+    func subscribeToDocument<R: IFirebaseDocumentRequest>(_ request: R, onUpdate: Handler<R.DTO>?)
 }
 
 // MARK: - FirebaseManager Implementation
@@ -54,27 +24,27 @@ enum FBCollectionKey: String, Hashable {
 final class FirebaseManager: IFirebaseManager {
     private let db = Firestore.firestore()
 
-    func loadAllDocuments(collection: String, _ completion: Handler<[[String: Any]]>?) {
-        db.collection(collection).getDocuments() { [weak self] (snapshot, error) in
+    func loadCollection<R: IFirebaseCollectionRequest>(_ request: R, _ completion: Handler<[R.DTO]>?) {
+        db.collection(request.collection).getDocuments { [weak self] (snapshot, error) in
             self?.process(snapshot: snapshot, error: error, handler: completion)
         }
     }
 
-    func loadDocument(collection: String, document: String, _ completion: Handler<[String: Any]>?) {
-        db.collection(collection).document(document).getDocument { [weak self] (snapshot, error) in
+    func loadDocument<R: IFirebaseDocumentRequest>(_ request: R, _ completion: Handler<R.DTO>?) {
+        db.collection(request.collection).document(request.document).getDocument { [weak self] (snapshot, error) in
             self?.process(snapshot: snapshot, error: error, handler: completion)
         }
     }
 
-    func subscribeToCollection(collection: String, onUpdate handler: Handler<[[String: Any]]>?) {
-        db.collection(collection).addSnapshotListener { [weak self] (snapshot, error) in
-            self?.process(snapshot: snapshot, error: error, handler: handler)
+    func subscribeToCollection<R: IFirebaseCollectionRequest>(_ request: R, onUpdate: Handler<[R.DTO]>?) {
+        db.collection(request.collection).addSnapshotListener { [weak self] (snapshot, error) in
+            self?.process(snapshot: snapshot, error: error, handler: onUpdate)
         }
     }
 
-    func subscribeToDocument(collection: String, doc: String, onUpdate handler: Handler<[String: Any]>?) {
-        db.collection(collection).document(doc).addSnapshotListener { [weak self] (snapshot, error) in
-            self?.process(snapshot: snapshot, error: error, handler: handler)
+    func subscribeToDocument<R: IFirebaseDocumentRequest>(_ request: R, onUpdate: Handler<R.DTO>?) {
+        db.collection(request.collection).document(request.document).addSnapshotListener { [weak self] (snapshot, error) in
+            self?.process(snapshot: snapshot, error: error, handler: onUpdate)
         }
     }
 }
@@ -82,18 +52,29 @@ final class FirebaseManager: IFirebaseManager {
 // MARK: - Processing helpers
 
 private extension FirebaseManager {
-    private func process(snapshot: QuerySnapshot?, error: Error?, handler: Handler<[[String: Any]]>?) {
+    private func process<DTO: IFirebaseDTO>(snapshot: QuerySnapshot?, error: Error?, handler: Handler<[DTO]>?) {
         if let error = error { handler?(.failure(error)); return }
         guard let snapshot = snapshot else { handler?(.failure(URLError(.badServerResponse))); return }
-        handler?(.success(snapshot.documents.map({ $0.data() })))
+        // Parsing
+        let parsed = snapshot.documents.compactMap { fbDocument in
+            let id = fbDocument.documentID
+            let data = fbDocument.data()
+            let parsed = DTO(id: id, data: data)
+            return parsed
+        }
+        guard parsed.count == snapshot.count else { handler?(.failure(URLError(.cannotParseResponse))); return }
+        // Return
+        handler?(.success(parsed))
     }
 
-    private func process(snapshot: DocumentSnapshot?, error: Error?, handler: Handler<[String: Any]>?) {
+    private func process<DTO: IFirebaseDTO>(snapshot: DocumentSnapshot?, error: Error?, handler: Handler<DTO>?) {
         if let error = error { handler?(.failure(error)); return }
         guard
             let snapshot = snapshot,
-            let data = snapshot.data()
+            let data = snapshot.data(),
+            let parsed = DTO(id: snapshot.documentID, data: data)
         else { handler?(.failure(URLError(.badServerResponse))); return }
-        handler?(.success(data))
+        // Return
+        handler?(.success(parsed))
     }
 }
