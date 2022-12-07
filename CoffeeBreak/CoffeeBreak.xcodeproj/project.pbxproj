@@ -73,9 +73,9 @@
 		B65C1048293FA59D007D2B70 /* CoffeeBreak */ = {
 			isa = PBXGroup;
 			children = (
+				B65C10742940FB80007D2B70 /* App */,
 				B65C106B2940E591007D2B70 /* Model */,
-				B65C1049293FA59D007D2B70 /* CoffeeBreakApp.swift */,
-				B65C104B293FA59D007D2B70 /* ContentView.swift */,
+				B65C10732940FB78007D2B70 /* UI */,
 				B65C105E293FAFF8007D2B70 /* Network */,
 				B65C104D293FA59E007D2B70 /* Assets.xcassets */,
 				B65C1057293FA6DF007D2B70 /* GoogleService-Info.plist */,
@@ -128,6 +128,22 @@
 				B65C10712940F6A4007D2B70 /* MeetupQueueElement.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		B65C10732940FB78007D2B70 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				B65C104B293FA59D007D2B70 /* ContentView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		B65C10742940FB80007D2B70 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B65C1049293FA59D007D2B70 /* CoffeeBreakApp.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
