@@ -12,17 +12,21 @@ import FirebaseFirestore
 
 protocol IFirebaseManager {
     typealias Handler<T> = (Result<T, Error>) -> Void
-
+    typealias ListenerID = UUID
+    // One-off
     func loadCollection<R: IFirebaseCollectionRequest>(_ request: R, _ completion: Handler<[R.DTO]>?)
     func loadDocument<R: IFirebaseDocumentRequest>(_ request: R, _ completion: Handler<R.DTO>?)
-    func subscribeToCollection<R: IFirebaseCollectionRequest>(_ request: R, onUpdate: Handler<[R.DTO]>?)
-    func subscribeToDocument<R: IFirebaseDocumentRequest>(_ request: R, onUpdate: Handler<R.DTO>?)
+    // Subscriptions
+    func subscribeToCollection<R: IFirebaseCollectionRequest>(_ request: R, onUpdate: Handler<[R.DTO]>?) -> ListenerID
+    func subscribeToDocument<R: IFirebaseDocumentRequest>(_ request: R, onUpdate: Handler<R.DTO>?) -> ListenerID
+    func cancel(id: ListenerID)
 }
 
 // MARK: - FirebaseManager Implementation
 
 final class FirebaseManager: IFirebaseManager {
     private let db = Firestore.firestore()
+    private var listeners = [ListenerID: ListenerRegistration]()
 
     func loadCollection<R: IFirebaseCollectionRequest>(_ request: R, _ completion: Handler<[R.DTO]>?) {
         db.collection(request.collection).getDocuments { [weak self] (snapshot, error) in
@@ -36,15 +40,29 @@ final class FirebaseManager: IFirebaseManager {
         }
     }
 
-    func subscribeToCollection<R: IFirebaseCollectionRequest>(_ request: R, onUpdate: Handler<[R.DTO]>?) {
-        db.collection(request.collection).addSnapshotListener { [weak self] (snapshot, error) in
+    func subscribeToCollection<R: IFirebaseCollectionRequest>(_ request: R, onUpdate: Handler<[R.DTO]>?) -> ListenerID {
+        let listener = db.collection(request.collection).addSnapshotListener { [weak self] (snapshot, error) in
             self?.process(snapshot: snapshot, error: error, handler: onUpdate)
         }
+        let id = UUID()
+        listeners[id] = listener
+        return id
     }
 
-    func subscribeToDocument<R: IFirebaseDocumentRequest>(_ request: R, onUpdate: Handler<R.DTO>?) {
-        db.collection(request.collection).document(request.document).addSnapshotListener { [weak self] (snapshot, error) in
+    func subscribeToDocument<R: IFirebaseDocumentRequest>(_ request: R, onUpdate: Handler<R.DTO>?) -> ListenerID {
+        let (col, doc) = (request.collection, request.document)
+        let listener = db.collection(col).document(doc).addSnapshotListener { [weak self] (snapshot, error) in
             self?.process(snapshot: snapshot, error: error, handler: onUpdate)
+        }
+        let id = UUID()
+        listeners[id] = listener
+        return id
+    }
+
+    func cancel(id: ListenerID) {
+        if let listener = listeners[id] {
+            listener.remove()
+            listeners[id] = nil
         }
     }
 }

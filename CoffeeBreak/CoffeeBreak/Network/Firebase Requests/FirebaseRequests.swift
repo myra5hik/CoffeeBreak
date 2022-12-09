@@ -22,6 +22,13 @@ protocol IFirebaseDocumentRequest {
 
 // MARK: - Request Implementations
 
+struct UserRequest: IFirebaseDocumentRequest {
+    typealias DTO = FBDTOPerson
+    let collection = FirebaseCollectionKey.userInfo.rawValue
+    let userId: String
+    var document: String { userId }
+}
+
 struct MeetupQueueRequest: IFirebaseCollectionRequest {
     typealias DTO = FBDTOMeetupQueueElement
     let collection = FirebaseCollectionKey.meetupQueue.rawValue
@@ -31,4 +38,5 @@ struct MeetupQueueRequest: IFirebaseCollectionRequest {
 
 enum FirebaseCollectionKey: String, Hashable {
     case meetupQueue = "meetup-queue"
+    case userInfo = "user-info"
 }
