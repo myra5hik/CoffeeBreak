@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30AB8ABED85CB3307077B891 /* FBDTOLoungeRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C30AEF72555F6D3599710F /* FBDTOLoungeRoom.swift */; };
 		3C4D31783DAA9D8666B7A176 /* MeetupQueueElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392AF16F6ACD3A6843F659E1 /* MeetupQueueElement.swift */; };
 		4107B1322940D1ED0022507E /* CoffeeColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1312940D1ED0022507E /* CoffeeColors.swift */; };
 		4107B1362940DCD70022507E /* MeetActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1352940DCD70022507E /* MeetActiveView.swift */; };
 		4107B1382940E32C0022507E /* InterestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1372940E32C0022507E /* InterestsView.swift */; };
 		4107B13A2940E6FB0022507E /* HistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1392940E6FB0022507E /* HistoryItem.swift */; };
+		67060F77EC529AE9813E7437 /* LoungeRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD698045DDD30EBC1D9834C8 /* LoungeRoom.swift */; };
 		758510338DA44F9771121745 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3CC1FBDC7B824E5A8767D /* NetworkService.swift */; };
 		AE4436EC9652E1AC52E7C0EB /* FBDTOPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656350A01BC78C6C3004556D /* FBDTOPerson.swift */; };
 		B65C104A293FA59D007D2B70 /* CoffeeBreakApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C1049293FA59D007D2B70 /* CoffeeBreakApp.swift */; };
@@ -28,10 +30,14 @@
 		B65C10762940FD1F007D2B70 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C10752940FD1F007D2B70 /* ProfileView.swift */; };
 		B65C10782940FD2B007D2B70 /* MeetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C10772940FD2B007D2B70 /* MeetView.swift */; };
 		B65C107A2940FD31007D2B70 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C10792940FD31007D2B70 /* HistoryView.swift */; };
+		BFC0B5E3A959E0015C64FAF1 /* MatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FC6468D920F79E6938298C /* MatchService.swift */; };
+		C4132B5933CBECFB339192CE /* DiscussionTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0B4AE0D661CF25F1E2AB05 /* DiscussionTopic.swift */; };
 		D86BB22DB502CFB0BC3447FC /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD54633F31C2897B55D986A6 /* Person.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E0B4AE0D661CF25F1E2AB05 /* DiscussionTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscussionTopic.swift; sourceTree = "<group>"; };
+		28C30AEF72555F6D3599710F /* FBDTOLoungeRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBDTOLoungeRoom.swift; sourceTree = "<group>"; };
 		392AF16F6ACD3A6843F659E1 /* MeetupQueueElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetupQueueElement.swift; sourceTree = "<group>"; };
 		4107B1312940D1ED0022507E /* CoffeeColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeColors.swift; sourceTree = "<group>"; };
 		4107B1352940DCD70022507E /* MeetActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetActiveView.swift; sourceTree = "<group>"; };
@@ -39,6 +45,7 @@
 		4107B1392940E6FB0022507E /* HistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItem.swift; sourceTree = "<group>"; };
 		4DF3CC1FBDC7B824E5A8767D /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		656350A01BC78C6C3004556D /* FBDTOPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBDTOPerson.swift; sourceTree = "<group>"; };
+		89FC6468D920F79E6938298C /* MatchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchService.swift; sourceTree = "<group>"; };
 		AD54633F31C2897B55D986A6 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		B65C1046293FA59D007D2B70 /* CoffeeBreak.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoffeeBreak.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B65C1049293FA59D007D2B70 /* CoffeeBreakApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeBreakApp.swift; sourceTree = "<group>"; };
@@ -53,6 +60,7 @@
 		B65C10752940FD1F007D2B70 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		B65C10772940FD2B007D2B70 /* MeetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetView.swift; sourceTree = "<group>"; };
 		B65C10792940FD31007D2B70 /* HistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		FD698045DDD30EBC1D9834C8 /* LoungeRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoungeRoom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +144,7 @@
 				B65C10612940C1C5007D2B70 /* Firebase DTOs */,
 				B65C105F293FB1AB007D2B70 /* FirebaseManager.swift */,
 				4DF3CC1FBDC7B824E5A8767D /* NetworkService.swift */,
+				89FC6468D920F79E6938298C /* MatchService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -146,6 +155,7 @@
 				B65C10642940CB4F007D2B70 /* IFirebaseDTO Protocol.swift */,
 				B65C10622940C1DA007D2B70 /* FBDTOMeetupQueueElement.swift */,
 				656350A01BC78C6C3004556D /* FBDTOPerson.swift */,
+				28C30AEF72555F6D3599710F /* FBDTOLoungeRoom.swift */,
 			);
 			path = "Firebase DTOs";
 			sourceTree = "<group>";
@@ -163,6 +173,8 @@
 			children = (
 				AD54633F31C2897B55D986A6 /* Person.swift */,
 				392AF16F6ACD3A6843F659E1 /* MeetupQueueElement.swift */,
+				0E0B4AE0D661CF25F1E2AB05 /* DiscussionTopic.swift */,
+				FD698045DDD30EBC1D9834C8 /* LoungeRoom.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -262,6 +274,10 @@
 				D86BB22DB502CFB0BC3447FC /* Person.swift in Sources */,
 				758510338DA44F9771121745 /* NetworkService.swift in Sources */,
 				AE4436EC9652E1AC52E7C0EB /* FBDTOPerson.swift in Sources */,
+				67060F77EC529AE9813E7437 /* LoungeRoom.swift in Sources */,
+				BFC0B5E3A959E0015C64FAF1 /* MatchService.swift in Sources */,
+				C4132B5933CBECFB339192CE /* DiscussionTopic.swift in Sources */,
+				30AB8ABED85CB3307077B891 /* FBDTOLoungeRoom.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
