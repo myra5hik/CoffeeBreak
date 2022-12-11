@@ -72,6 +72,7 @@ struct ProfileView: View {
                         }
                         
                         
+                        Spacer().frame(height: 30)
 
                         Text("Link to connect:")
                             .foregroundColor(.white)
