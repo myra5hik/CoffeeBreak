@@ -17,4 +17,12 @@ struct Person: Identifiable, Hashable {
         if let surname = surname { res += " \(surname)" }
         return res
     }
+    
+    static var dummy: Person {
+        Person(
+            id: "dummy-test",
+            name: "Dummy",
+            surname: "User"
+        )
+    }
 }

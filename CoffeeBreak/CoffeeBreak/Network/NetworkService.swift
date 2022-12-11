@@ -12,15 +12,23 @@ import Foundation
 protocol INetworkService: AnyObject {
     typealias Handler<T> = (Result<T, Error>) -> Void
     typealias NetworkServiceSubscription = UUID
-
+    // Create, update
+    func add(loungeRoom: LoungeRoom)
+    func add(meetupQueueElement: MeetupQueueElement)
+    // Read
     func loadUserInfo(_ id: Person.ID, _ handler: Handler<Person>?)
     func subscribeToMeetupQueue(_ handler: Handler<[MeetupQueueElement]>?) -> NetworkServiceSubscription
+    func subscribeToLoungeRooms(_ handler: Handler<[LoungeRoom]>?) -> NetworkServiceSubscription
+    // Delete
+    func removeMeetupQueueElement(_ id: MeetupQueueElement.ID)
+    func removeLoungeRoom(_ id: LoungeRoom.ID)
+    // Stop following
     func unsubscribe(_ id: NetworkServiceSubscription)
 }
 
 // MARK: - Implementation
 
-final class NetworkService<M: IFirebaseManager>: INetworkService {
+final class NetworkService<M: IFirebaseManager> {
     // Dependencies
     private let manager: M
     // State
@@ -35,22 +43,65 @@ final class NetworkService<M: IFirebaseManager>: INetworkService {
             manager.cancel(id: listener)
         }
     }
+}
+
+// MARK: - INetworkService Conformance
+
+extension NetworkService: INetworkService {
+
+    // MARK: Create, update
+
+    func add(loungeRoom: LoungeRoom) {
+        let request = LoungeRoomRequest(loungeRoomId: loungeRoom.id)
+        let dto = FBDTOLoungeRoom(domainModel: loungeRoom)
+        manager.addDocument(dto, request, nil)
+    }
+
+    func add(meetupQueueElement: MeetupQueueElement) {
+        let request = MeetupQueueElementRequest(elementId: meetupQueueElement.id)
+        let dto = FBDTOMeetupQueueElement(domainModel: meetupQueueElement)
+        manager.addDocument(dto, request, nil)
+    }
+
+    // MARK: Read
 
     func loadUserInfo(_ id: Person.ID, _ handler: Handler<Person>?) {
         let request = UserRequest(userId: id)
-        manager.loadDocument(request) { [weak self] (result) in
+        manager.loadDocument(request, allowCached: true) { [weak self] (result) in
             self?.processResult(result, handler)
         }
     }
 
     func subscribeToMeetupQueue(_ handler: Handler<[MeetupQueueElement]>?) -> NetworkServiceSubscription {
         let request = MeetupQueueRequest()
-        let listenerId = manager.subscribeToCollection(request) { [weak self] (result) in
+        let listenerId = manager.subscribeToCollection(request, allowCached: false) { [weak self] (result) in
             self?.processResult(result, handler)
         }
         let id = UUID()
         subscriptions[id] = listenerId
         return id
+    }
+
+    func subscribeToLoungeRooms(_ handler: Handler<[LoungeRoom]>?) -> NetworkServiceSubscription {
+        let request = LoungeRoomsRequest()
+        let listenerId = manager.subscribeToCollection(request, allowCached: true) { [weak self] (result) in
+            self?.processResult(result, handler)
+        }
+        let id = UUID()
+        subscriptions[id] = listenerId
+        return id
+    }
+
+    // MARK: Delete
+
+    func removeMeetupQueueElement(_ id: MeetupQueueElement.ID) {
+        let request = MeetupQueueElementRequest(elementId: id)
+        manager.removeDocument(request, nil)
+    }
+
+    func removeLoungeRoom(_ id: LoungeRoom.ID) {
+        let request = LoungeRoomRequest(loungeRoomId: id)
+        manager.removeDocument(request, nil)
     }
 
     func unsubscribe(_ id: NetworkServiceSubscription) {

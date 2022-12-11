@@ -13,18 +13,21 @@ import FirebaseFirestore
 protocol IFirebaseManager {
     typealias Handler<T> = (Result<T, Error>) -> Void
     typealias ListenerID = UUID
-    // One-off
-    func loadCollection<R: IFirebaseCollectionRequest>(_ request: R, _ completion: Handler<[R.DTO]>?)
-    func loadDocument<R: IFirebaseDocumentRequest>(_ request: R, _ completion: Handler<R.DTO>?)
-    // Subscriptions
-    func subscribeToCollection<R: IFirebaseCollectionRequest>(_ request: R, onUpdate: Handler<[R.DTO]>?) -> ListenerID
-    func subscribeToDocument<R: IFirebaseDocumentRequest>(_ request: R, onUpdate: Handler<R.DTO>?) -> ListenerID
+    // Create
+    func addDocument<R: IFirebaseDocumentRequest>(_ data: R.DTO, _ request: R, _ completion: Handler<Void>?)
+    // One-off read
+    func loadCollection<R: IFirebaseCollectionRequest>(_ request: R, allowCached: Bool, _ completion: Handler<[R.DTO]>?)
+    func loadDocument<R: IFirebaseDocumentRequest>(_ request: R, allowCached: Bool, _ completion: Handler<R.DTO>?)
+    func removeDocument<R: IFirebaseDocumentRequest>(_ request: R, _ completion: Handler<Void>?)
+    // Subscription read
+    func subscribeToCollection<R: IFirebaseCollectionRequest>(_ request: R, allowCached: Bool, onUpdate: Handler<[R.DTO]>?) -> ListenerID
+    func subscribeToDocument<R: IFirebaseDocumentRequest>(_ request: R, allowCached: Bool, onUpdate: Handler<R.DTO>?) -> ListenerID
     func cancel(id: ListenerID)
 }
 
 // MARK: - FirebaseManager Implementation
 
-final class FirebaseManager: IFirebaseManager {
+final class FirebaseManager {
     private let db = Firestore.firestore()
     private var listeners = [ListenerID: ListenerRegistration]()
     
@@ -33,21 +36,40 @@ final class FirebaseManager: IFirebaseManager {
             listener.remove()
         }
     }
+}
 
-    func loadCollection<R: IFirebaseCollectionRequest>(_ request: R, _ completion: Handler<[R.DTO]>?) {
-        db.collection(request.collection).getDocuments { [weak self] (snapshot, error) in
+// MARK: - IFirebaseManager Conformance
+
+extension FirebaseManager: IFirebaseManager {
+    func addDocument<R: IFirebaseDocumentRequest>(_ data: R.DTO, _ request: R, _ completion: Handler<Void>?) {
+        db.collection(request.collection).document(request.document).setData(data.toDict().1)
+    }
+
+    func loadCollection<R: IFirebaseCollectionRequest>(_ request: R, allowCached: Bool, _ completion: Handler<[R.DTO]>?) {
+        let c = request.collection
+        db.collection(c).getDocuments(source: allowCached ? .default : .server) { [weak self] (snapshot, error) in
             self?.process(snapshot: snapshot, error: error, handler: completion)
         }
     }
 
-    func loadDocument<R: IFirebaseDocumentRequest>(_ request: R, _ completion: Handler<R.DTO>?) {
-        db.collection(request.collection).document(request.document).getDocument { [weak self] (snapshot, error) in
+    func loadDocument<R: IFirebaseDocumentRequest>(_ request: R, allowCached: Bool, _ completion: Handler<R.DTO>?) {
+        let (c, d) = (request.collection, request.document)
+        db.collection(c).document(d).getDocument(source: allowCached ? .default : .server) { [weak self] (snapshot, error) in
             self?.process(snapshot: snapshot, error: error, handler: completion)
         }
     }
 
-    func subscribeToCollection<R: IFirebaseCollectionRequest>(_ request: R, onUpdate: Handler<[R.DTO]>?) -> ListenerID {
-        let listener = db.collection(request.collection).addSnapshotListener { [weak self] (snapshot, error) in
+    func removeDocument<R: IFirebaseDocumentRequest>(_ request: R, _ completion: Handler<Void>?) {
+        db.collection(request.collection).document(request.document).delete { error in
+            if let error = error { completion?(.failure(error)); return }
+            completion?(.success(()))
+        }
+    }
+
+    func subscribeToCollection<R: IFirebaseCollectionRequest>(_ request: R, allowCached: Bool, onUpdate: Handler<[R.DTO]>?) -> ListenerID {
+        let c = request.collection
+        let listener = db.collection(c).addSnapshotListener { [weak self] (snapshot, error) in
+            if !allowCached && snapshot?.metadata.isFromCache ?? false { return }
             self?.process(snapshot: snapshot, error: error, handler: onUpdate)
         }
         let id = UUID()
@@ -55,9 +77,10 @@ final class FirebaseManager: IFirebaseManager {
         return id
     }
 
-    func subscribeToDocument<R: IFirebaseDocumentRequest>(_ request: R, onUpdate: Handler<R.DTO>?) -> ListenerID {
-        let (col, doc) = (request.collection, request.document)
-        let listener = db.collection(col).document(doc).addSnapshotListener { [weak self] (snapshot, error) in
+    func subscribeToDocument<R: IFirebaseDocumentRequest>(_ request: R, allowCached: Bool, onUpdate: Handler<R.DTO>?) -> ListenerID {
+        let (c, d) = (request.collection, request.document)
+        let listener = db.collection(c).document(d).addSnapshotListener { [weak self] (snapshot, error) in
+            if !allowCached && snapshot?.metadata.isFromCache ?? false { return }
             self?.process(snapshot: snapshot, error: error, handler: onUpdate)
         }
         let id = UUID()

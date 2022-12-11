@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B60FD2F02941FDC000ED2F68 /* MatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60FD2EF2941FDC000ED2F68 /* MatchService.swift */; };
+		B60FD2F2294208A900ED2F68 /* DiscussionTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60FD2F1294208A900ED2F68 /* DiscussionTopic.swift */; };
 		B65C104A293FA59D007D2B70 /* CoffeeBreakApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C1049293FA59D007D2B70 /* CoffeeBreakApp.swift */; };
 		B65C104C293FA59D007D2B70 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C104B293FA59D007D2B70 /* ContentView.swift */; };
 		B65C104E293FA59E007D2B70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B65C104D293FA59E007D2B70 /* Assets.xcassets */; };
@@ -22,9 +24,13 @@
 		B65C106D2940E59C007D2B70 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C106C2940E59C007D2B70 /* Person.swift */; };
 		B65C10702940E609007D2B70 /* FBDTOPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C106F2940E609007D2B70 /* FBDTOPerson.swift */; };
 		B65C10722940F6A4007D2B70 /* MeetupQueueElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C10712940F6A4007D2B70 /* MeetupQueueElement.swift */; };
+		B6EA7D5D2943CF8700E4FE2C /* LoungeRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EA7D5C2943CF8700E4FE2C /* LoungeRoom.swift */; };
+		B6EA7D5F2943D05700E4FE2C /* FBDTOLoungeRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EA7D5E2943D05700E4FE2C /* FBDTOLoungeRoom.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B60FD2EF2941FDC000ED2F68 /* MatchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchService.swift; sourceTree = "<group>"; };
+		B60FD2F1294208A900ED2F68 /* DiscussionTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscussionTopic.swift; sourceTree = "<group>"; };
 		B65C1046293FA59D007D2B70 /* CoffeeBreak.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoffeeBreak.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B65C1049293FA59D007D2B70 /* CoffeeBreakApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeBreakApp.swift; sourceTree = "<group>"; };
 		B65C104B293FA59D007D2B70 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -39,6 +45,8 @@
 		B65C106C2940E59C007D2B70 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		B65C106F2940E609007D2B70 /* FBDTOPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBDTOPerson.swift; sourceTree = "<group>"; };
 		B65C10712940F6A4007D2B70 /* MeetupQueueElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetupQueueElement.swift; sourceTree = "<group>"; };
+		B6EA7D5C2943CF8700E4FE2C /* LoungeRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoungeRoom.swift; sourceTree = "<group>"; };
+		B6EA7D5E2943D05700E4FE2C /* FBDTOLoungeRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBDTOLoungeRoom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +107,7 @@
 				B65C10612940C1C5007D2B70 /* Firebase DTOs */,
 				B65C105F293FB1AB007D2B70 /* FirebaseManager.swift */,
 				B65C10692940E578007D2B70 /* NetworkService.swift */,
+				B60FD2EF2941FDC000ED2F68 /* MatchService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -109,6 +118,7 @@
 				B65C10642940CB4F007D2B70 /* IFirebaseDTO Protocol.swift */,
 				B65C106F2940E609007D2B70 /* FBDTOPerson.swift */,
 				B65C10622940C1DA007D2B70 /* FBDTOMeetupQueueElement.swift */,
+				B6EA7D5E2943D05700E4FE2C /* FBDTOLoungeRoom.swift */,
 			);
 			path = "Firebase DTOs";
 			sourceTree = "<group>";
@@ -126,6 +136,8 @@
 			children = (
 				B65C106C2940E59C007D2B70 /* Person.swift */,
 				B65C10712940F6A4007D2B70 /* MeetupQueueElement.swift */,
+				B60FD2F1294208A900ED2F68 /* DiscussionTopic.swift */,
+				B6EA7D5C2943CF8700E4FE2C /* LoungeRoom.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -226,7 +238,11 @@
 			files = (
 				B65C1060293FB1AB007D2B70 /* FirebaseManager.swift in Sources */,
 				B65C104C293FA59D007D2B70 /* ContentView.swift in Sources */,
+				B6EA7D5D2943CF8700E4FE2C /* LoungeRoom.swift in Sources */,
+				B60FD2F02941FDC000ED2F68 /* MatchService.swift in Sources */,
+				B60FD2F2294208A900ED2F68 /* DiscussionTopic.swift in Sources */,
 				B65C10632940C1DA007D2B70 /* FBDTOMeetupQueueElement.swift in Sources */,
+				B6EA7D5F2943D05700E4FE2C /* FBDTOLoungeRoom.swift in Sources */,
 				B65C10652940CB4F007D2B70 /* IFirebaseDTO Protocol.swift in Sources */,
 				B65C10722940F6A4007D2B70 /* MeetupQueueElement.swift in Sources */,
 				B65C10672940DF33007D2B70 /* FirebaseRequests.swift in Sources */,
