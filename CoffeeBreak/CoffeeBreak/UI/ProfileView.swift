@@ -8,6 +8,16 @@
 import SwiftUI
 
 struct ProfileView: View {
+    
+
+    
+    @State private var interest1 =  UserDefaults.standard.string(forKey: "interest1")  ?? "Pick Your Interest"
+    @State private var interest2 =  UserDefaults.standard.string(forKey: "interest2")  ?? "Pick Your Interest"
+
+    @State private var interest3 =  UserDefaults.standard.string(forKey: "interest3")  ?? "Pick Your Interest"
+    
+ 
+    
     var body: some View {
         
         VStack {
@@ -53,32 +63,12 @@ struct ProfileView: View {
 
                         
                         Group {
-                            InterestsView()
-                                .padding()
-                                .padding(.leading, 30)
-                                .padding(.trailing, 30)
-                                .background(CoffeeColors.interestsBackground)
-                            .cornerRadius(6)
+                            InterestsView(interest1: $interest1, interest2: $interest2, interest3: $interest3)
+                                
                             
-                            Spacer().frame(height: 20.0)
                             
-                            InterestsView()
-                                .padding()
-                                .padding(.leading, 30)
-                                .padding(.trailing, 30)
-                                .background(CoffeeColors.interestsBackground)
-                                .cornerRadius(6)
                             
-                            Spacer().frame(height: 20.0)
-                            
-                            InterestsView()
-                                .padding()
-                                .padding(.leading, 30)
-                                .padding(.trailing, 30)
-                                .background(CoffeeColors.interestsBackground)
-                                .cornerRadius(6)
-
-                            Spacer().frame(height: 20.0)
+                          
                         }
                         
                         
@@ -146,3 +136,4 @@ struct ProfileView_Previews: PreviewProvider {
         ProfileView()
     }
 }
+
