@@ -11,6 +11,7 @@ struct Person: Identifiable, Hashable {
     let id: String
     let name: String
     let surname: String?
+    let interests: [DiscussionTopic]
 
     var fullName: String {
         var res = name
@@ -22,7 +23,8 @@ struct Person: Identifiable, Hashable {
         Person(
             id: "dummy-test",
             name: "Dummy",
-            surname: "User"
+            surname: "User",
+            interests: [.coding, .food]
         )
     }
 }
