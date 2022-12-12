@@ -28,7 +28,7 @@ protocol IFirebaseManager {
 // MARK: - FirebaseManager Implementation
 
 final class FirebaseManager {
-    private let db = Firestore.firestore()
+    private lazy var db = Firestore.firestore()
     private var listeners = [ListenerID: ListenerRegistration]()
     
     deinit {

@@ -15,8 +15,10 @@ protocol INetworkService: AnyObject {
     // Create, update
     func add(loungeRoom: LoungeRoom)
     func add(meetupQueueElement: MeetupQueueElement)
+    func add(userInfo: Person)
     // Read
     func loadUserInfo(_ id: Person.ID, _ handler: Handler<Person>?)
+    func subscribeToUserInfo(_ id: Person.ID, _ handler: Handler<Person>?) -> NetworkServiceSubscription
     func subscribeToMeetupQueue(_ handler: Handler<[MeetupQueueElement]>?) -> NetworkServiceSubscription
     func subscribeToLoungeRooms(_ handler: Handler<[LoungeRoom]>?) -> NetworkServiceSubscription
     // Delete
@@ -30,11 +32,11 @@ protocol INetworkService: AnyObject {
 
 final class NetworkService<M: IFirebaseManager> {
     // Dependencies
-    private let manager: M
+    private lazy var manager: M! = nil
     // State
     private var subscriptions = [NetworkServiceSubscription: M.ListenerID]()
 
-    init(manager: M = FirebaseManager()) {
+    init(manager: M) {
         self.manager = manager
     }
     
@@ -63,6 +65,12 @@ extension NetworkService: INetworkService {
         manager.addDocument(dto, request, nil)
     }
 
+    func add(userInfo: Person) {
+        let request = UserRequest(userId: userInfo.id)
+        let dto = FBDTOPerson(domainModel: userInfo)
+        manager.addDocument(dto, request, nil)
+    }
+
     // MARK: Read
 
     func loadUserInfo(_ id: Person.ID, _ handler: Handler<Person>?) {
@@ -72,14 +80,20 @@ extension NetworkService: INetworkService {
         }
     }
 
+    func subscribeToUserInfo(_ id: Person.ID, _ handler: Handler<Person>?) -> NetworkServiceSubscription {
+        let request = UserRequest(userId: id)
+        let listenerId = manager.subscribeToDocument(request, allowCached: true) { [weak self] result in
+            self?.processResult(result, handler)
+        }
+        return registerListener(listenerId)
+    }
+
     func subscribeToMeetupQueue(_ handler: Handler<[MeetupQueueElement]>?) -> NetworkServiceSubscription {
         let request = MeetupQueueRequest()
         let listenerId = manager.subscribeToCollection(request, allowCached: false) { [weak self] (result) in
             self?.processResult(result, handler)
         }
-        let id = UUID()
-        subscriptions[id] = listenerId
-        return id
+        return registerListener(listenerId)
     }
 
     func subscribeToLoungeRooms(_ handler: Handler<[LoungeRoom]>?) -> NetworkServiceSubscription {
@@ -87,9 +101,7 @@ extension NetworkService: INetworkService {
         let listenerId = manager.subscribeToCollection(request, allowCached: true) { [weak self] (result) in
             self?.processResult(result, handler)
         }
-        let id = UUID()
-        subscriptions[id] = listenerId
-        return id
+        return registerListener(listenerId)
     }
 
     // MARK: Delete
@@ -138,5 +150,11 @@ private extension NetworkService {
         case .failure(let error):
             handler?(.failure(error))
         }
+    }
+
+    func registerListener(_ listenerId: IFirebaseManager.ListenerID) -> NetworkServiceSubscription {
+        let internalId = UUID()
+        subscriptions[internalId] = listenerId
+        return internalId
     }
 }
