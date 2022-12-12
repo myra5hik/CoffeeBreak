@@ -14,10 +14,11 @@ struct MeetActiveView: View {
     let imageLink: String = "PotentialMatch"
     let interests = ["Gaming", "Hiking", "UX Design"]
     let discordLink: String = "Discordapp.com/users/Andrea"
-    
+    let https: String = "https://"
 
     @Environment(\.dismiss) var dismiss
     @State private var exitWarningConfirm: Bool = false
+    @State private var displayCopied: Bool = false
 
     
     var body: some View {
@@ -95,28 +96,42 @@ struct MeetActiveView: View {
                     .padding(.bottom, 10)
                     .padding(.top, 10)
                 
+                
+                
                 Button(action: {
+                    
+                    
+                    UIPasteboard.general.setValue(https+discordLink, forPasteboardType: "public.plain-text")
+
+                    displayCopied = true
                              
                 }) {
                     
                     Text(discordLink)
                         .foregroundColor(.white)
                         .opacity(0.75)
+                    
                     Image(systemName: "doc.on.doc.fill")
                         .fontWeight(.bold)
                         .foregroundColor(.white)
+                    
                 }
-                .padding(.bottom, 16)
-                .padding(.top, 16)
-                .padding(.leading, 20)
-                .padding(.trailing, 20)
+                .alert("Profile link copied!", isPresented: $displayCopied) {
+                            Button("OK") { }
+                        }
+                .padding(16)
+                .frame(maxWidth: .infinity)
                 .background(CoffeeColors.backgroundColor)   .cornerRadius(30)
                 .opacity(0.9)
                 
 
                 Spacer().frame(height: 20)
 
-                Button(action: {}) {
+                Button(action: {
+                    if let url = URL(string: https+discordLink) {
+                           UIApplication.shared.open(url)
+                        }
+                }) {
                     Text("Connect Us")
                         .foregroundColor(CoffeeColors.innerBox)
                         .bold()
