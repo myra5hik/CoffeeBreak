@@ -39,12 +39,9 @@ enum MatchState: Equatable {
 
 // MARK: - MatchService Implementation
 
-final class MatchService<NS: INetworkService, US: IUserService>: ObservableObject, IMatchService {
+final class MatchService<NS: INetworkService, US: IUserService>: ObservableObject {
     // State
-    @Published private(set) var matchState: MatchState = .uninitiated {
-        didSet { print("Match service: \(matchState)") }
-    }
-    var readyForRequests: Bool { return matchState == .idle && currentUser != nil }
+    @Published private(set) var matchState: MatchState = .uninitiated
     private var currentUserQueuePosition: MeetupQueueElement.ID?
     // Dependencies
     private let networkService: NS
@@ -70,6 +67,10 @@ final class MatchService<NS: INetworkService, US: IUserService>: ObservableObjec
         unsubscribeFromLoungeRoomUpdates()
         unsubscribeFromQueueUpdates()
     }
+}
+
+extension MatchService: IMatchService {
+    var readyForRequests: Bool { return matchState == .idle && currentUser != nil }
 
     func requestCoffeeBreak() {
         // Avoids requesting unless in idle mode
@@ -87,7 +88,7 @@ final class MatchService<NS: INetworkService, US: IUserService>: ObservableObjec
         // Subscribes to network service meetup queue updates
         subscribeToQueueUpdates(ownInterests: currentUser.interests)
     }
-    
+
     func cancelCoffeeBreakRequest() {
         guard matchState == .searching else { return }
         removeCurrentUserFromQueue()
@@ -181,14 +182,15 @@ private extension MatchService {
         ) {
             // In leading position here
             if let match = sortedQueue[(ownPosition + 1)...].firstIndex(where: { !ownInterests.intersection($0.topicIds).isEmpty }) {
-                let counterpart = sortedQueue[match].userId
+                let counterpartId = sortedQueue[match].userId
+                guard counterpartId != currentUser.id else { removeCurrentUserFromQueue(); return }
                 // Removes both from queue
                 networkService.removeMeetupQueueElement(sortedQueue[ownPosition].id)
                 networkService.removeMeetupQueueElement(sortedQueue[match].id)
                 // Add both to a lounge room
                 networkService.add(loungeRoom: LoungeRoom(
                     id: UUID().uuidString,
-                    members: [currentUser.id, counterpart],
+                    members: [currentUser.id, counterpartId],
                     timeCreated: .now,
                     timeExpires: .now + Constants.loungeRoomExpiration)
                 )
