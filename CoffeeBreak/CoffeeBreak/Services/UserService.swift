@@ -13,6 +13,8 @@ import Combine
 protocol IUserService: ObservableObject {
     var state: UserState { get }
     var currentUser: Person? { get }
+    /// Pass nil to skip updating a field. Pass .some(nil) to surname to specificly null it.
+    func updateUserInfo(name: String?, surname: String??, interests: [DiscussionTopic]?)
 }
 
 enum UserState {
@@ -23,13 +25,9 @@ enum UserState {
 
 // MARK: - UserService implementation
 
-final class UserService<A: IAuthService, N: INetworkService>: ObservableObject, IUserService {
+final class UserService<A: IAuthService, N: INetworkService>: ObservableObject {
     // State
     @Published private(set) var state: UserState = .nonauthed
-    var currentUser: Person? {
-        if case .authed(let person) = state { return person }
-        return nil
-    }
     // Dependencies
     private let auth: A
     private let network: N
@@ -47,6 +45,26 @@ final class UserService<A: IAuthService, N: INetworkService>: ObservableObject, 
         if let subscription = userInfoSubscription {
             network.unsubscribe(subscription)
         }
+    }
+}
+
+// MARK: - IUserService conformance
+
+extension UserService: IUserService {
+    var currentUser: Person? {
+        if case .authed(let person) = state { return person }
+        return nil
+    }
+
+    func updateUserInfo(name: String? = nil, surname: String?? = nil, interests: [DiscussionTopic]? = nil) {
+        guard let currentUser = currentUser else { return }
+        let new = Person(
+            id: currentUser.id,
+            name: name ?? currentUser.name,
+            surname: surname ?? currentUser.surname,
+            interests: interests ?? currentUser.interests
+        )
+        network.add(userInfo: new)
     }
 }
 

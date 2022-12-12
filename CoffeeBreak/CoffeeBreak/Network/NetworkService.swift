@@ -15,6 +15,7 @@ protocol INetworkService: AnyObject {
     // Create, update
     func add(loungeRoom: LoungeRoom)
     func add(meetupQueueElement: MeetupQueueElement)
+    func add(userInfo: Person)
     // Read
     func loadUserInfo(_ id: Person.ID, _ handler: Handler<Person>?)
     func subscribeToUserInfo(_ id: Person.ID, _ handler: Handler<Person>?) -> NetworkServiceSubscription
@@ -61,6 +62,12 @@ extension NetworkService: INetworkService {
     func add(meetupQueueElement: MeetupQueueElement) {
         let request = MeetupQueueElementRequest(elementId: meetupQueueElement.id)
         let dto = FBDTOMeetupQueueElement(domainModel: meetupQueueElement)
+        manager.addDocument(dto, request, nil)
+    }
+
+    func add(userInfo: Person) {
+        let request = UserRequest(userId: userInfo.id)
+        let dto = FBDTOPerson(domainModel: userInfo)
         manager.addDocument(dto, request, nil)
     }
 
