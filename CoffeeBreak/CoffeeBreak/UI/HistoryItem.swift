@@ -10,7 +10,6 @@ import SwiftUI
 struct HistoryItem: View {
     var body: some View {
         
-        
         Button(action: {
             
             //go to specific history page 
@@ -54,12 +53,7 @@ struct HistoryItem: View {
             .background(CoffeeColors.interestsBackground)
             .cornerRadius(6)
             
-        }//end category item
-        
-        
-
-       
-        
+        }//end category item      
     }
 }
 

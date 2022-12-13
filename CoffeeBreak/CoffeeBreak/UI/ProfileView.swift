@@ -10,14 +10,11 @@ import SwiftUI
 struct ProfileView: View {
     
 
-    
     @State private var interest1 =  UserDefaults.standard.string(forKey: "interest1")  ?? "Pick Your Interest"
     @State private var interest2 =  UserDefaults.standard.string(forKey: "interest2")  ?? "Pick Your Interest"
 
     @State private var interest3 =  UserDefaults.standard.string(forKey: "interest3")  ?? "Pick Your Interest"
-    
- 
-    
+
     var body: some View {
         
         VStack {
@@ -64,13 +61,7 @@ struct ProfileView: View {
                         
                         Group {
                             InterestsView(interest1: $interest1, interest2: $interest2, interest3: $interest3)
-                                
-                            
-                            
-                            
-                          
                         }
-                        
                         
                         Spacer().frame(height: 30)
 
@@ -80,13 +71,9 @@ struct ProfileView: View {
                             .fontWeight(.semibold)
                         
                         Button(action: {
-                            
-                            
-                            
+     
                         }) {
                             
-
-                              
                             Text("Discordapp.com/users/Roman")
                                 .foregroundColor(CoffeeColors.innerBox)
                                 .opacity(0.75)
@@ -121,9 +108,6 @@ struct ProfileView: View {
                         .foregroundColor(CoffeeColors.innerBox)
                     
                 Spacer()
-                    
-                    
-                    
                 }
 
             }   .frame(maxWidth: .infinity, maxHeight: .infinity)

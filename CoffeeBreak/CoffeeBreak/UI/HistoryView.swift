@@ -12,9 +12,6 @@ struct HistoryView: View {
     
     var body: some View {
         
-        
-       
-        
         NavigationStack {
             
             ScrollView {
@@ -27,8 +24,7 @@ struct HistoryView: View {
                         .foregroundColor(.white)
                         .font(.title)
                         .fontWeight(.semibold)
-                    
-                    
+
                     Spacer().frame(height: 20.0)
                     
                     Group {
@@ -43,15 +39,6 @@ struct HistoryView: View {
                         HistoryItem()
                         HistoryItem()
                     }
-                  
-                   
-
-                    
-
-                    
-                    
-                    
-                    
                 }
             
             }.background(CoffeeColors.backgroundColor)

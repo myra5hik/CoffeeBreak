@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import Combine
 
 // MARK: - IMatchService
 
 protocol IMatchService: ObservableObject {
     var matchState: MatchState { get }
     var readyForRequests: Bool { get }
-    func requestCoffeeBreak(interests: [DiscussionTopic])
+    func requestCoffeeBreak()
     func cancelCoffeeBreakRequest()
 }
 
@@ -38,20 +39,27 @@ enum MatchState: Equatable {
 
 // MARK: - MatchService Implementation
 
-final class MatchService<NS: INetworkService>: ObservableObject, IMatchService {
+final class MatchService<NS: INetworkService, US: IUserService>: ObservableObject {
     // State
     @Published private(set) var matchState: MatchState = .uninitiated
-    var readyForRequests: Bool { return matchState == .idle }
     private var currentUserQueuePosition: MeetupQueueElement.ID?
     // Dependencies
     private let networkService: NS
-    private var currentUser = Person.dummy
+    private var currentUser: Person?
+    private let userService: US
+    // Etc
     private var queueSubscription: INetworkService.NetworkServiceSubscription?
     private var loungeRoomsSubscription: INetworkService.NetworkServiceSubscription?
+    private var bag = Set<AnyCancellable>()
 
-    init(networkService: NS) {
+    init(networkService: NS, userService: US) {
         self.networkService = networkService
-        subscribeToLoungeRoomUpdates()
+        self.userService = userService
+        // Required to trigger Firebase after App's didFinishLaunching / FB configuration
+        DispatchQueue.main.async { [weak self] in
+            self?.subscribeToLoungeRoomUpdates()
+            self?.subscribeToUserService()
+        }
     }
 
     deinit {
@@ -59,10 +67,14 @@ final class MatchService<NS: INetworkService>: ObservableObject, IMatchService {
         unsubscribeFromLoungeRoomUpdates()
         unsubscribeFromQueueUpdates()
     }
+}
 
-    func requestCoffeeBreak(interests: [DiscussionTopic]) {
+extension MatchService: IMatchService {
+    var readyForRequests: Bool { return matchState == .idle && currentUser != nil }
+
+    func requestCoffeeBreak() {
         // Avoids requesting unless in idle mode
-        guard matchState == .idle else { return }
+        guard readyForRequests, let currentUser = currentUser else { return }
         // Sets internal state
         matchState = .searching
         // Adds request to the server
@@ -70,13 +82,13 @@ final class MatchService<NS: INetworkService>: ObservableObject, IMatchService {
             id: UUID().uuidString,
             timeCreated: .now,
             timeExpires: .now + Constants.queueElementExpiration,
-            topicIds: interests.map({ $0.rawValue }),
+            topicIds: currentUser.interests.map({ $0.rawValue }),
             userId: currentUser.id)
         )
         // Subscribes to network service meetup queue updates
-        subscribeToQueueUpdates(ownInterests: interests)
+        subscribeToQueueUpdates(ownInterests: currentUser.interests)
     }
-    
+
     func cancelCoffeeBreakRequest() {
         guard matchState == .searching else { return }
         removeCurrentUserFromQueue()
@@ -117,15 +129,28 @@ private extension MatchService {
             loungeRoomsSubscription = nil
         }
     }
+
+    func subscribeToUserService() {
+        userService.currentUserPublisher.sink { [weak self] person in
+            self?.cancelCoffeeBreakRequest()
+            self?.unsubscribeFromLoungeRoomUpdates()
+            self?.unsubscribeFromQueueUpdates()
+            self?.matchState = .uninitiated
+            self?.currentUser = person
+            self?.subscribeToLoungeRoomUpdates()
+        }
+        .store(in: &bag)
+    }
 }
 
 // MARK: - Processing updates
 
 private extension MatchService {
     func processLoungeRooms(_ rooms: [LoungeRoom]) {
+        guard let currentUser = currentUser else { return }
         for room in rooms {
             if room.timeExpires < .now { networkService.removeLoungeRoom(room.id); continue }
-            if !room.members.contains(self.currentUser.id) { continue }
+            if !room.members.contains(currentUser.id) { continue }
             // Present in a room at this point
             guard let other = room.members.first(where: { $0 != currentUser.id }) else { return }
             matchState = .match(with: other)
@@ -139,8 +164,8 @@ private extension MatchService {
     func processMeetupQueue(_ queue: [MeetupQueueElement], ownInterests: [DiscussionTopic]) {
         // Removes expired items
         removeExpiredItems(queue)
-        // Avoids proceeding unless in searching mode
-        guard matchState == .searching else { return }
+        // Avoids proceeding unless in searching mode / unauthed
+        guard matchState == .searching, let currentUser = currentUser else { return }
         // Looks for a match
         let ownInterests = Set(ownInterests.map({ $0.rawValue }))
         let sortedQueue = queue.sorted(by: { $0.timeCreated <= $1.timeCreated })
@@ -157,14 +182,15 @@ private extension MatchService {
         ) {
             // In leading position here
             if let match = sortedQueue[(ownPosition + 1)...].firstIndex(where: { !ownInterests.intersection($0.topicIds).isEmpty }) {
-                let counterpart = sortedQueue[match].userId
+                let counterpartId = sortedQueue[match].userId
+                guard counterpartId != currentUser.id else { removeCurrentUserFromQueue(); return }
                 // Removes both from queue
                 networkService.removeMeetupQueueElement(sortedQueue[ownPosition].id)
                 networkService.removeMeetupQueueElement(sortedQueue[match].id)
                 // Add both to a lounge room
                 networkService.add(loungeRoom: LoungeRoom(
                     id: UUID().uuidString,
-                    members: [currentUser.id, counterpart],
+                    members: [currentUser.id, counterpartId],
                     timeCreated: .now,
                     timeExpires: .now + Constants.loungeRoomExpiration)
                 )
