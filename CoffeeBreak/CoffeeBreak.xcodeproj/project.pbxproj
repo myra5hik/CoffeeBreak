@@ -33,6 +33,7 @@
 		BFC0B5E3A959E0015C64FAF1 /* MatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FC6468D920F79E6938298C /* MatchService.swift */; };
 		C4132B5933CBECFB339192CE /* DiscussionTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0B4AE0D661CF25F1E2AB05 /* DiscussionTopic.swift */; };
 		D86BB22DB502CFB0BC3447FC /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD54633F31C2897B55D986A6 /* Person.swift */; };
+		F06052E02948DDC100A35B13 /* MeetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06052DF2948DDC100A35B13 /* MeetButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		B65C10752940FD1F007D2B70 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		B65C10772940FD2B007D2B70 /* MeetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetView.swift; sourceTree = "<group>"; };
 		B65C10792940FD31007D2B70 /* HistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		F06052DF2948DDC100A35B13 /* MeetButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetButton.swift; sourceTree = "<group>"; };
 		FD698045DDD30EBC1D9834C8 /* LoungeRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoungeRoom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				B65C104B293FA59D007D2B70 /* ContentView.swift */,
+				F06052DF2948DDC100A35B13 /* MeetButton.swift */,
 				B65C10792940FD31007D2B70 /* HistoryView.swift */,
 				4107B1392940E6FB0022507E /* HistoryItem.swift */,
 				B65C10772940FD2B007D2B70 /* MeetView.swift */,
@@ -271,6 +274,7 @@
 				4107B1382940E32C0022507E /* InterestsView.swift in Sources */,
 				4107B1322940D1ED0022507E /* CoffeeColors.swift in Sources */,
 				3C4D31783DAA9D8666B7A176 /* MeetupQueueElement.swift in Sources */,
+				F06052E02948DDC100A35B13 /* MeetButton.swift in Sources */,
 				D86BB22DB502CFB0BC3447FC /* Person.swift in Sources */,
 				758510338DA44F9771121745 /* NetworkService.swift in Sources */,
 				AE4436EC9652E1AC52E7C0EB /* FBDTOPerson.swift in Sources */,
