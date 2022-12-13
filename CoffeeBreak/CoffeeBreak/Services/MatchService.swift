@@ -8,33 +8,13 @@
 import Foundation
 import Combine
 
-// MARK: - IMatchService
+// MARK: - IMatchService Protocol
 
 protocol IMatchService: ObservableObject {
     var matchState: MatchState { get }
     var readyForRequests: Bool { get }
     func requestCoffeeBreak()
     func cancelCoffeeBreakRequest()
-}
-
-enum MatchState: Equatable {
-    /// State before connection to the server is established
-    case uninitiated
-    // States after the connection is established which guarantee synced state
-    case idle
-    case searching
-    case match(with: Person.ID)
-    case error(Error)
-    
-    static func == (lhs: MatchState, rhs: MatchState) -> Bool {
-        switch (lhs, rhs) {
-        case (.idle, .idle): return true
-        case (.searching, .searching): return true
-        case (.match(with: let a), .match(with: let b)): return a == b
-        case (.error(let a), .error(let b)): return a.localizedDescription == b.localizedDescription
-        default: return false
-        }
-    }
 }
 
 // MARK: - MatchService Implementation
@@ -45,7 +25,6 @@ final class MatchService<NS: INetworkService, US: IUserService>: ObservableObjec
     private var currentUserQueuePosition: MeetupQueueElement.ID?
     // Dependencies
     private let networkService: NS
-    private var currentUser: Person?
     private let userService: US
     // Etc
     private var queueSubscription: INetworkService.NetworkServiceSubscription?
@@ -57,8 +36,9 @@ final class MatchService<NS: INetworkService, US: IUserService>: ObservableObjec
         self.userService = userService
         // Required to trigger Firebase after App's didFinishLaunching / FB configuration
         DispatchQueue.main.async { [weak self] in
-            self?.subscribeToLoungeRoomUpdates()
             self?.subscribeToUserService()
+            self?.subscribeToQueueUpdates()
+            self?.subscribeToLoungeRoomUpdates()
         }
     }
 
@@ -70,11 +50,11 @@ final class MatchService<NS: INetworkService, US: IUserService>: ObservableObjec
 }
 
 extension MatchService: IMatchService {
-    var readyForRequests: Bool { return matchState == .idle && currentUser != nil }
+    var readyForRequests: Bool { return matchState == .idle && userService.currentUser != nil }
 
     func requestCoffeeBreak() {
         // Avoids requesting unless in idle mode
-        guard readyForRequests, let currentUser = currentUser else { return }
+        guard readyForRequests, let currentUser = userService.currentUser else { return }
         // Sets internal state
         matchState = .searching
         // Adds request to the server
@@ -85,14 +65,11 @@ extension MatchService: IMatchService {
             topicIds: currentUser.interests.map({ $0.rawValue }),
             userId: currentUser.id)
         )
-        // Subscribes to network service meetup queue updates
-        subscribeToQueueUpdates(ownInterests: currentUser.interests)
     }
 
     func cancelCoffeeBreakRequest() {
         guard matchState == .searching else { return }
         removeCurrentUserFromQueue()
-        unsubscribeFromQueueUpdates()
     }
 }
 
@@ -108,10 +85,10 @@ private extension MatchService {
         }
     }
 
-    func subscribeToQueueUpdates(ownInterests: [DiscussionTopic]) {
+    func subscribeToQueueUpdates() {
         queueSubscription = networkService.subscribeToMeetupQueue { [weak self] (state) in
             if case .success(let queue) = state {
-                self?.processMeetupQueue(queue, ownInterests: ownInterests)
+                self?.processMeetupQueue(queue)
             }
         }
     }
@@ -132,11 +109,15 @@ private extension MatchService {
 
     func subscribeToUserService() {
         userService.currentUserPublisher.sink { [weak self] person in
+            // Unsubscribes from the previous user's updates
             self?.cancelCoffeeBreakRequest()
             self?.unsubscribeFromLoungeRoomUpdates()
             self?.unsubscribeFromQueueUpdates()
+            // Resets state
             self?.matchState = .uninitiated
-            self?.currentUser = person
+            self?.currentUserQueuePosition = nil
+            // Subscribes to the new user's updates
+            self?.subscribeToQueueUpdates()
             self?.subscribeToLoungeRoomUpdates()
         }
         .store(in: &bag)
@@ -147,27 +128,26 @@ private extension MatchService {
 
 private extension MatchService {
     func processLoungeRooms(_ rooms: [LoungeRoom]) {
-        guard let currentUser = currentUser else { return }
+        guard let currentUser = userService.currentUser else { return }
         for room in rooms {
             if room.timeExpires < .now { networkService.removeLoungeRoom(room.id); continue }
             if !room.members.contains(currentUser.id) { continue }
             // Present in a room at this point
             guard let other = room.members.first(where: { $0 != currentUser.id }) else { return }
             matchState = .match(with: other)
-            unsubscribeFromQueueUpdates()
             return
         }
         // Not present in any of the rooms
         matchState = (matchState == .searching) ? .searching : .idle
     }
 
-    func processMeetupQueue(_ queue: [MeetupQueueElement], ownInterests: [DiscussionTopic]) {
+    func processMeetupQueue(_ queue: [MeetupQueueElement]) {
         // Removes expired items
         removeExpiredItems(queue)
-        // Avoids proceeding unless in searching mode / unauthed
-        guard matchState == .searching, let currentUser = currentUser else { return }
+        // Avoids proceeding unless authed
+        guard let currentUser = userService.currentUser else { return }
         // Looks for a match
-        let ownInterests = Set(ownInterests.map({ $0.rawValue }))
+        let ownInterests = Set(currentUser.interests.map({ $0.rawValue }))
         let sortedQueue = queue.sorted(by: { $0.timeCreated <= $1.timeCreated })
         guard let ownPosition = sortedQueue.firstIndex(where: { $0.userId == currentUser.id }) else {
             matchState = .idle
@@ -175,6 +155,7 @@ private extension MatchService {
         }
         // Present in the queue
         currentUserQueuePosition = sortedQueue[ownPosition].id
+        matchState = .searching
         // Resolves if should lead or yield
         if shouldAssumeLeadershipPosition(
             interestsBefore: sortedQueue[0 ..< ownPosition].map({ $0.topicIds }),
@@ -237,5 +218,34 @@ extension MatchService {
     enum Constants {
         static var queueElementExpiration: TimeInterval { 5 * 60 }
         static var loungeRoomExpiration: TimeInterval { 15 * 60 }
+    }
+}
+
+// MARK: - MatchState
+
+enum MatchState {
+    /// State before connection to the server is established
+    case uninitiated
+    // States after the connection is established which guarantee synced state
+    case idle
+    case searching
+    case match(with: Person.ID)
+    case error(Error)
+}
+
+extension MatchState: Equatable {
+    static func == (lhs: MatchState, rhs: MatchState) -> Bool {
+        switch (lhs, rhs) {
+        case (.idle, .idle):
+            return true
+        case (.searching, .searching):
+            return true
+        case (.match(with: let a), .match(with: let b)):
+            return a == b
+        case (.error(let a), .error(let b)):
+            return a.localizedDescription == b.localizedDescription
+        default:
+            return false
+        }
     }
 }
