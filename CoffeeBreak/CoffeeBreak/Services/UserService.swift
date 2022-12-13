@@ -13,6 +13,7 @@ import Combine
 protocol IUserService: ObservableObject {
     var state: UserState { get }
     var currentUser: Person? { get }
+    var currentUserPublisher: AnyPublisher<Person?, Never> { get }
     /// Pass nil to skip updating a field. Pass .some(nil) to surname to specificly null it.
     func updateUserInfo(name: String?, surname: String??, interests: [DiscussionTopic]?)
 }
@@ -27,7 +28,15 @@ enum UserState {
 
 final class UserService<A: IAuthService, N: INetworkService>: ObservableObject {
     // State
-    @Published private(set) var state: UserState = .nonauthed
+    @Published private(set) var state: UserState = .nonauthed {
+        didSet {
+            if case .authed(let person) = state { _currentUserSubject.send(person); return }
+            _currentUserSubject.send(nil)
+        }
+    }
+    // Publishers
+    private let _currentUserSubject = PassthroughSubject<Person?, Never>()
+    var currentUserPublisher: AnyPublisher<Person?, Never> { _currentUserSubject.eraseToAnyPublisher() }
     // Dependencies
     private let auth: A
     private let network: N

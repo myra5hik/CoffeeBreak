@@ -131,7 +131,7 @@ private extension MatchService {
     }
 
     func subscribeToUserService() {
-        userService.currentUser.publisher.sink { [weak self] person in
+        userService.currentUserPublisher.sink { [weak self] person in
             self?.cancelCoffeeBreakRequest()
             self?.unsubscribeFromLoungeRoomUpdates()
             self?.unsubscribeFromQueueUpdates()
