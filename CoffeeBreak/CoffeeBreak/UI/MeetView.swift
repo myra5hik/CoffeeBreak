@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-
 struct MeetView<M: IMatchService>: View {
     
     @State private var matchID = "Sample Name"
     @State private var exitSearchWarning: Bool = false
-
     @ObservedObject private var service: M
     
     init(matchService: M) {
@@ -36,7 +34,6 @@ struct MeetView<M: IMatchService>: View {
                 Text("Find others who are taking a break \nand connect.")
                     .font(.subheadline)
                     .foregroundColor(CoffeeColors.subText)
-                
 
             }
             Spacer().frame(height: 50.0)
@@ -46,23 +43,10 @@ struct MeetView<M: IMatchService>: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 200.0)
                 .opacity(0.5)
-            
-            
+
             Spacer()
             
-            
-            if (service.matchState == .uninitiated){
-                VStack{
-                    Spacer()
-                    Text("Server connecting...").foregroundColor(.white)
-                    
-                }
-            
-            }
-            
-
-             
-            
+   
             Button(action: {
 //                takeABreakPressed.toggle()
                 service.requestCoffeeBreak()
@@ -78,9 +62,7 @@ struct MeetView<M: IMatchService>: View {
                     case .error(let error):
                         Text(error.localizedDescription)
                 }
-                
-                
-                
+  
             }//end category item
             .disabled(service.matchState == .uninitiated) //edit this!
             .opacity(service.readyForRequests ? 1 : 0.1)
@@ -99,9 +81,7 @@ struct MeetView<M: IMatchService>: View {
                     print(error)
                 }
             })
-            
-            
-            
+
             if (service.matchState == .searching){
                 Button(action: {
                     exitSearchWarning = true
@@ -116,28 +96,21 @@ struct MeetView<M: IMatchService>: View {
                 .confirmationDialog("Are you sure?",
                   isPresented: $exitSearchWarning) {
                   Button("End Search", role: .destructive) {
-                      
-                    
+                       
                       //FIX THIS! CURRENTLY BACKEND DOESN'T UPDATE matchState back to //.idle
                       service.cancelCoffeeBreakRequest()
-                      
                       let _ = print(service.matchState)
-
                    }
                  }
             }//end of cancel search button
-            
-            
+  
             Spacer().frame(height: 60.0)
-
-            
+ 
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CoffeeColors.backgroundColor)
     }
 }
-
-
 
 //struct MeetView_Previews: PreviewProvider {
 //    static var previews: some View {

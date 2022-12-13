@@ -9,30 +9,19 @@ import SwiftUI
 
 struct MeetActiveView: View {
     
-    
-
-    
-
-
     @Environment(\.dismiss) var dismiss
     @State private var exitWarningConfirm: Bool = false
     @State private var displayCopied: Bool = false
-
-
-   
-    
     @Binding var matchID: String
+    
     let imageLink: String = "PotentialMatch"
     let interests = ["Gaming", "Hiking", "UX Design"]
     let discordLink: String = "Discordapp.com/users/Andrea"
     let https: String = "https://"
 
-    
     //ENTIRE PROFILE OF PERSON
     
-    
     var body: some View {
-        
         
         VStack {
             Spacer().frame(height: 40)
@@ -75,7 +64,6 @@ struct MeetActiveView: View {
                             .fill(CoffeeColors.innerBox)
                             .cornerRadius(10))
                     
-                    
                       } //end of hstack
                 
                 Text(interests[2])
@@ -90,7 +78,6 @@ struct MeetActiveView: View {
                         .cornerRadius(10)
                     )
                     
-                
             }
             
             //meeting point discussion VStack
@@ -105,12 +92,9 @@ struct MeetActiveView: View {
                     .padding(.trailing, 24)
                     .padding(.bottom, 10)
                     .padding(.top, 10)
-                
-                
-                
+   
                 Button(action: {
-                    
-                    
+           
                     UIPasteboard.general.setValue(https+discordLink, forPasteboardType: "public.plain-text")
 
                     displayCopied = true
@@ -151,16 +135,6 @@ struct MeetActiveView: View {
                         .background(.green).cornerRadius(10)
                         .opacity(0.9)
                 }
-
-                
-                
-                
-                
-                
-                
-                
-                
-                
                     
             }
             .padding()
@@ -168,13 +142,7 @@ struct MeetActiveView: View {
             .padding(.trailing, 30)
             .background(CoffeeColors.innerBox.clipShape(RoundedRectangle(cornerRadius:10)))
             Spacer()
-            
-            
-            
-            
-            
-            
-            
+
             Button(action: {
                 exitWarningConfirm = true
               

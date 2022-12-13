@@ -47,18 +47,12 @@ struct ContentView<M: IMatchService>: View {
                 .tabItem {
                     Label("Profile", systemImage: "person.fill").environment(\.symbolVariants, .none)
                 }.tag(2)
-            
-
-
-
-
-           
+              
         }
         .accentColor(.red) //tabview end
         
     }
-        
-    
+  
 }
 
 //struct ContentView_Previews: PreviewProvider {
