@@ -13,16 +13,15 @@ import SwiftUI
 
 
 
-struct ContentView: View {
+struct ContentView<M: IMatchService>: View {
     
     @State public var tabViewSelection = 1
+    private let matchService: M
     
-    init() {
-    UITabBar.appearance().unselectedItemTintColor = UIColor.white
-
+    init(matchService: M) {
+        self.matchService = matchService
+        UITabBar.appearance().unselectedItemTintColor = UIColor.white
     }
-    
-    
     
     var body: some View {
         
@@ -35,7 +34,7 @@ struct ContentView: View {
                 
                 }.tag(0)
                 .foregroundColor(.white)
-            MeetView()
+            MeetView(matchService: matchService)
                 .preferredColorScheme(.dark)
 
                 .tabItem {
@@ -62,8 +61,8 @@ struct ContentView: View {
     
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}

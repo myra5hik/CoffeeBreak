@@ -12,10 +12,10 @@ import FirebaseCore
 struct CoffeeBreakApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var delegate
 
-    private let networkService: any INetworkService
-    private let userService: any IUserService
-    private let authService: any IAuthService
-    private let matchService: any IMatchService
+    private let matchService: MatchService<NetworkService<FirebaseManager>, UserService<AuthService, NetworkService<FirebaseManager>>>
+    private let networkService: NetworkService<FirebaseManager>
+    private let userService: UserService<AuthService, NetworkService<FirebaseManager>>
+    private let authService: AuthService
 
     init() {
         // Initialization
@@ -37,7 +37,7 @@ struct CoffeeBreakApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(matchService: matchService)
         }
     }
 }

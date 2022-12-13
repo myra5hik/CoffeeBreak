@@ -9,17 +9,27 @@ import SwiftUI
 
 struct MeetActiveView: View {
     
-    //ENTIRE PROFILE OF PERSON
-    let matchName: String = "Andrea"
-    let imageLink: String = "PotentialMatch"
-    let interests = ["Gaming", "Hiking", "UX Design"]
-    let discordLink: String = "Discordapp.com/users/Andrea"
-    let https: String = "https://"
+    
+
+    
+
 
     @Environment(\.dismiss) var dismiss
     @State private var exitWarningConfirm: Bool = false
     @State private var displayCopied: Bool = false
 
+
+   
+    
+    @Binding var matchID: String
+    let imageLink: String = "PotentialMatch"
+    let interests = ["Gaming", "Hiking", "UX Design"]
+    let discordLink: String = "Discordapp.com/users/Andrea"
+    let https: String = "https://"
+
+    
+    //ENTIRE PROFILE OF PERSON
+    
     
     var body: some View {
         
@@ -33,7 +43,7 @@ struct MeetActiveView: View {
             VStack{
                 
                 
-                Text(matchName)
+                Text(matchID)
                     .foregroundColor(.white)
                     .font(.system(size: 40))
                     .fontWeight(.bold)
@@ -179,6 +189,7 @@ struct MeetActiveView: View {
             .confirmationDialog("Are you sure?",
               isPresented: $exitWarningConfirm) {
               Button("End Break Now", role: .destructive) {
+                  
                 dismiss()
                }
              }
@@ -190,6 +201,7 @@ struct MeetActiveView: View {
 
 struct MeetActiveView_Previews: PreviewProvider {
     static var previews: some View {
-        MeetActiveView()
+        MeetActiveView(matchID: .constant("test value"))
     }
 }
+
