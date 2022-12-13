@@ -68,7 +68,8 @@ extension FirebaseManager: IFirebaseManager {
 
     func subscribeToCollection<R: IFirebaseCollectionRequest>(_ request: R, allowCached: Bool, onUpdate: Handler<[R.DTO]>?) -> ListenerID {
         let c = request.collection
-        let listener = db.collection(c).addSnapshotListener { [weak self] (snapshot, error) in
+        let mdOptIn = allowCached ? false : true
+        let listener = db.collection(c).addSnapshotListener(includeMetadataChanges: mdOptIn) { [weak self] (snapshot, error) in
             if !allowCached && snapshot?.metadata.isFromCache ?? false { return }
             self?.process(snapshot: snapshot, error: error, handler: onUpdate)
         }
@@ -79,7 +80,8 @@ extension FirebaseManager: IFirebaseManager {
 
     func subscribeToDocument<R: IFirebaseDocumentRequest>(_ request: R, allowCached: Bool, onUpdate: Handler<R.DTO>?) -> ListenerID {
         let (c, d) = (request.collection, request.document)
-        let listener = db.collection(c).document(d).addSnapshotListener { [weak self] (snapshot, error) in
+        let mdOptIn = allowCached ? false : true
+        let listener = db.collection(c).document(d).addSnapshotListener(includeMetadataChanges: mdOptIn) { [weak self] (snapshot, error) in
             if !allowCached && snapshot?.metadata.isFromCache ?? false { return }
             self?.process(snapshot: snapshot, error: error, handler: onUpdate)
         }
