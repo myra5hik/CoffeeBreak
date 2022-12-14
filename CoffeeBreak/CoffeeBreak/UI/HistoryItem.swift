@@ -8,7 +8,15 @@
 import SwiftUI
 
 struct HistoryItem: View {
+    
+    @Binding var name: String
+    
+    
+    
+    
+
     var body: some View {
+        
         
         Button(action: {
             
@@ -25,8 +33,8 @@ struct HistoryItem: View {
                     Spacer().frame(width: 14.0)
                     
                     VStack (alignment: .leading){
-                        Text("Lisa").fontWeight(.bold)
-                            .foregroundColor(.black)
+                        Text(name).fontWeight(.bold)
+                            .foregroundColor(.white)
                         Text("Discordapp.com/users/Lisa")
                             .font(.system(size: 10))
                             .foregroundColor(.gray)
@@ -44,21 +52,19 @@ struct HistoryItem: View {
                     Spacer().frame(width: 10.0)
                     
                     Image(systemName: "chevron.right")
-                        .foregroundColor(.black)
+                        .foregroundColor(.gray)
                 }
-                
-                
             }
             .padding(20)
-            .background(CoffeeColors.interestsBackground)
+            .background(CoffeeColors.innerBox)
             .cornerRadius(6)
             
         }//end category item      
     }
 }
 
-struct HistoryItem_Previews: PreviewProvider {
-    static var previews: some View {
-        HistoryItem()
-    }
-}
+//struct HistoryItem_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HistoryItem(name: .constant("hello"))
+//    }
+//}

@@ -9,7 +9,8 @@ import SwiftUI
 
 struct HistoryView: View {
 
-    
+    @State private var name: String = ""
+
     var body: some View {
         
         NavigationStack {
@@ -28,16 +29,19 @@ struct HistoryView: View {
                     Spacer().frame(height: 20.0)
                     
                     Group {
-                        HistoryItem()
-                        HistoryItem()
-                        HistoryItem()
-                        HistoryItem()
-                        HistoryItem()
-                        HistoryItem()
-                        HistoryItem()
-                        HistoryItem()
-                        HistoryItem()
-                        HistoryItem()
+                        VStack {
+                            HistoryItem(name: .constant("Alexandra"))
+                            HistoryItem(name: .constant("Pedro"))
+                            HistoryItem(name: .constant("Mario"))
+                            HistoryItem(name: .constant("Lexi"))
+                            HistoryItem(name: .constant("Mama"))
+                            HistoryItem(name: .constant("Mia"))
+                            HistoryItem(name: .constant("Luigi"))
+                            HistoryItem(name: .constant("Brielle"))
+                            HistoryItem(name: .constant("Bob"))
+                            HistoryItem(name: .constant("Fire"))
+                        }
+                        
                     }
                 }
             

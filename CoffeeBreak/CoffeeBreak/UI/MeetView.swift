@@ -16,9 +16,7 @@ struct MeetView<M: IMatchService>: View {
     init(matchService: M) {
         self.service = matchService
     }
-
-    let topic = DiscussionTopic.coding
-    var interestsArray = ["Gaming", "Hiking", "Biking"]
+    
     @State private var takeABreakPressed = false
 
     var body: some View {
