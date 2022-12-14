@@ -10,6 +10,7 @@ import SwiftUI
 struct MeetView<M: IMatchService>: View {
     // Dependencies
     @ObservedObject private var service: M
+    let factory: any IScreenFactory
     // State
     private var matchedPerson: Person.ID? {
         if case .match(with: let id) = service.matchState { return id }
@@ -18,8 +19,9 @@ struct MeetView<M: IMatchService>: View {
     @State private var showingMatchScreenOverlay = false
     @State private var showingCancelSearchAlert: Bool = false
 
-    init(matchService: M) {
+    init(matchService: M, factory: any IScreenFactory) {
         self.service = matchService
+        self.factory = factory
     }
 
     var body: some View {
@@ -34,7 +36,7 @@ struct MeetView<M: IMatchService>: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CoffeeColors.backgroundColor)
         .fullScreenCover(isPresented: $showingMatchScreenOverlay) {
-            MeetActiveView(matchId: matchedPerson)
+            factory.makeMeetActiveView(matchId: matchedPerson)
         }
         .onChange(of: service.matchState) { state in
             if case .match = state { showingMatchScreenOverlay = true; return }
@@ -102,6 +104,6 @@ struct MeetView<M: IMatchService>: View {
 
 struct MeetView_Previews: PreviewProvider {
     static var previews: some View {
-        MeetView(matchService: StubMatchService(state: .match(with: "")))
+        MeetView(matchService: StubMatchService(state: .idle), factory: StubScreenFactory())
     }
 }
