@@ -41,4 +41,22 @@ extension DiscussionTopic {
         default: return self.rawValue.uppercased()
         }
     }
+    
+    var allCases: [DiscussionTopic] {
+        [
+            Self.coding,
+            Self.design,
+            Self.food,
+            Self.football,
+            Self.gameDevelopment,
+            Self.gaming,
+            Self.hiking,
+            Self.skiing,
+            Self.sports,
+            Self.swift,
+            Self.swiftUi,
+            Self.uiDesign,
+            Self.uiKit
+        ]
+    }
 }
