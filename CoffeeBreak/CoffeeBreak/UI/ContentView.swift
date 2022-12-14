@@ -7,52 +7,37 @@
 
 import SwiftUI
 
-
-
-
-
-
-
-struct ContentView<M: IMatchService>: View {
+struct ContentView<SF: IScreenFactory>: View {
     
     @State public var tabViewSelection = 1
-    private let matchService: M
+    private weak var factory: SF!
     
-    init(matchService: M) {
-        self.matchService = matchService
+    init(factory: SF) {
+        self.factory = factory
         UITabBar.appearance().unselectedItemTintColor = UIColor.white
     }
     
     var body: some View {
-        
-        TabView(selection: $tabViewSelection){
-            HistoryView()
+        TabView(selection: $tabViewSelection) {
+            factory.makeHistoryView()
                 .preferredColorScheme(.dark)
-
                 .tabItem {
                     Label("History", systemImage: "clock")
-                
                 }.tag(0)
                 .foregroundColor(.white)
-            MeetView(matchService: matchService)
+            factory.makeMeetView()
                 .preferredColorScheme(.dark)
-
                 .tabItem {
                     Label("Coffee Break", systemImage: "cup.and.saucer.fill").environment(\.symbolVariants, .none)
-                
                 }.tag(1)
-            ProfileView()
+            factory.makeProfileView()
                 .preferredColorScheme(.dark)
-
                 .tabItem {
                     Label("Profile", systemImage: "person.fill").environment(\.symbolVariants, .none)
                 }.tag(2)
-              
         }
         .accentColor(.red) //tabview end
-        
     }
-  
 }
 
 //struct ContentView_Previews: PreviewProvider {
