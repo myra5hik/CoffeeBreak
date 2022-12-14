@@ -20,6 +20,7 @@ struct Profile {
 final class ProfileViewModel<U: IUserService>: ObservableObject {
     @Published var currentProfile: Profile
     @Published var editingName: String
+    @Published var interests: (DiscussionTopic?, DiscussionTopic?, DiscussionTopic?)
     
     @Published var userService: U
     var store = Set<AnyCancellable>()
@@ -44,12 +45,29 @@ final class ProfileViewModel<U: IUserService>: ObservableObject {
         $currentProfile.sink { [weak self] newProfile in
             guard let self = self else { return }
             self.editingName = newProfile.name
+            self.interests.0 = newProfile.interests[safe: 0]
+            self.interests.1 = newProfile.interests[safe: 1]
+            self.interests.2 = newProfile.interests[safe: 2]
         }
         .store(in: &store)
     }
     
     func setNewUserData() {
-        self.userService.updateUserInfo(name: self.editingName, surname: nil, interests: self.currentProfile.interests)
+        self.userService.updateUserInfo(name: self.editingName, surname: nil, interests: getInterestsArray())
+    }
+    
+    func getInterestsArray() -> [DiscussionTopic] {
+        var interestsArray: [DiscussionTopic] = []
+        if let element = self.interests.0 {
+            interestsArray.append(element)
+        }
+        if let element = self.interests.1 {
+            interestsArray.append(element)
+        }
+        if let element = self.interests.2 {
+            interestsArray.append(element)
+        }
+        return interestsArray
     }
 }
 
@@ -120,10 +138,9 @@ struct ProfileView<U: IUserService> : View {
                         
                         Spacer().frame(height: 20.0)
                         
-                        
-//                        Group {
-//                            InterestsView(interests: vm.currentProfile.interests)
-//                        }
+                        Group {
+                            InterestsView(isEditting: $isEditing, interests: $vm.interests)
+                        }
                         
                         Spacer().frame(height: 30)
                         
