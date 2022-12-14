@@ -66,13 +66,15 @@ extension UserService: IUserService {
     }
 
     func updateUserInfo(name: String? = nil, surname: String?? = nil, interests: [DiscussionTopic]? = nil) {
-        guard let currentUser = currentUser else { return }
-        let new = Person(
-            id: currentUser.id,
-            name: name ?? currentUser.name,
-            surname: surname ?? currentUser.surname,
-            interests: interests ?? currentUser.interests
-        )
+        guard
+            case .authed = state,
+            let id = auth.currentAuth,
+            let name = name ?? currentUser?.name,
+            let surname = surname ?? "",
+            let interests = interests ?? currentUser?.interests
+        else { return }
+        
+        let new = Person(id: id, name: name, surname: surname, interests: interests)
         network.add(userInfo: new)
     }
 }
@@ -81,7 +83,7 @@ extension UserService: IUserService {
 
 private extension UserService {
     func subscribeToAuth() {
-        auth.currentAuth.sink { [weak self] personId in
+        auth.currentAuthPublisher.sink { [weak self] personId in
             if let id = personId { self?.subscribeToUserUpdates(id) }
         }
         .store(in: &bag)

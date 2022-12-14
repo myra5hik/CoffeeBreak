@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-
-
-
-
-
-
 struct ContentView<M: IMatchService>: View {
     
     @State public var tabViewSelection = 1
@@ -41,7 +35,7 @@ struct ContentView<M: IMatchService>: View {
                     Label("Coffee Break", systemImage: "cup.and.saucer.fill").environment(\.symbolVariants, .none)
                 
                 }.tag(1)
-            ProfileView()
+            ProfileView(userService: user)
                 .preferredColorScheme(.dark)
 
                 .tabItem {

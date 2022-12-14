@@ -12,12 +12,6 @@ struct Person: Identifiable, Hashable {
     let name: String
     let surname: String?
     let interests: [DiscussionTopic]
-
-    var fullName: String {
-        var res = name
-        if let surname = surname { res += " \(surname)" }
-        return res
-    }
     
     static var dummy: Person {
         Person(

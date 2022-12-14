@@ -8,6 +8,12 @@
 import SwiftUI
 import FirebaseCore
 
+let manager = FirebaseManager()
+let network = NetworkService(manager: manager)
+let auth = AuthService()
+let user = UserService(authService: auth, networkService: network)
+let match = MatchService(networkService: network, userService: user)
+
 @main
 struct CoffeeBreakApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var delegate
@@ -19,11 +25,7 @@ struct CoffeeBreakApp: App {
 
     init() {
         // Initialization
-        let manager = FirebaseManager()
-        let network = NetworkService(manager: manager)
-        let auth = AuthService()
-        let user = UserService(authService: auth, networkService: network)
-        let match = MatchService(networkService: network, userService: user)
+    
         // Assignments
         self.networkService = network
         self.authService = auth
