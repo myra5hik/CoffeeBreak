@@ -10,8 +10,8 @@ import FirebaseFirestore
 
 struct FBDTOMeetupQueueElement: Identifiable, Hashable {
     let id: String
-    let timeCreated: Date
-    let timeExpires: Date
+    let timeCreated: Timestamp
+    let timeExpires: Timestamp
     let topicIds: [String]
     let userId: String
 }
@@ -25,8 +25,8 @@ extension FBDTOMeetupQueueElement: IFirebaseDTO {
 
     init?(id: String, data: [String: Any]) {
         guard
-            let timeExpires = (data[Keys.timeExpires.rawValue] as? Timestamp)?.dateValue(),
-            let timeCreated = (data[Keys.timeCreated.rawValue] as? Timestamp)?.dateValue(),
+            let timeExpires = data[Keys.timeExpires.rawValue] as? Timestamp,
+            let timeCreated = data[Keys.timeCreated.rawValue] as? Timestamp,
             let topicIds = data[Keys.topicIds.rawValue] as? [String],
             let userId = data[Keys.userId.rawValue] as? String
         else { return nil }
@@ -38,8 +38,8 @@ extension FBDTOMeetupQueueElement: IFirebaseDTO {
         return (
             id: self.id,
             [
-                Keys.timeExpires.rawValue: Timestamp(date: self.timeExpires),
-                Keys.timeCreated.rawValue: Timestamp(date: self.timeCreated),
+                Keys.timeExpires.rawValue: self.timeExpires,
+                Keys.timeCreated.rawValue: self.timeCreated,
                 Keys.topicIds.rawValue: self.topicIds,
                 Keys.userId.rawValue: self.userId
             ]
@@ -53,8 +53,8 @@ extension FBDTOMeetupQueueElement: IDomainModelRepresentable {
     init(domainModel: MeetupQueueElement) {
         self.init(
             id: domainModel.id,
-            timeCreated: domainModel.timeCreated,
-            timeExpires: domainModel.timeExpires,
+            timeCreated: Timestamp(date: domainModel.timeCreated),
+            timeExpires: Timestamp(date: domainModel.timeExpires),
             topicIds: domainModel.topicIds,
             userId: domainModel.userId
         )
@@ -63,8 +63,8 @@ extension FBDTOMeetupQueueElement: IDomainModelRepresentable {
     func toDomainModel() -> MeetupQueueElement {
         return MeetupQueueElement(
             id: self.id,
-            timeCreated: self.timeCreated,
-            timeExpires: self.timeExpires,
+            timeCreated: self.timeCreated.dateValue(),
+            timeExpires: self.timeExpires.dateValue(),
             topicIds: self.topicIds,
             userId: self.userId
         )

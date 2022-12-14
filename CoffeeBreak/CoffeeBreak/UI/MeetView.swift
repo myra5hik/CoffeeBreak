@@ -95,10 +95,7 @@ struct MeetView<M: IMatchService>: View {
                 .confirmationDialog("Are you sure?",
                   isPresented: $exitSearchWarning) {
                   Button("End Search", role: .destructive) {
-                       
-                      //FIX THIS! CURRENTLY BACKEND DOESN'T UPDATE matchState back to //.idle
                       service.cancelCoffeeBreakRequest()
-                      let _ = print(service.matchState)
                    }
                  }
             }//end of cancel search button
