@@ -8,16 +8,19 @@
 import SwiftUI
 
 struct MeetActiveView: View {
-    
     @Environment(\.dismiss) var dismiss
     @State private var exitWarningConfirm: Bool = false
     @State private var displayCopied: Bool = false
-    @Binding var matchID: String
+    var matchID: String?
     
     let imageLink: String = "PotentialMatch"
     let interests = ["Gaming", "Hiking", "UX Design"]
     let discordLink: String = "Discordapp.com/users/Andrea"
     let https: String = "https://"
+
+    init(matchId: Person.ID?) {
+        self.matchID = matchId
+    }
 
     //ENTIRE PROFILE OF PERSON
     
@@ -34,7 +37,7 @@ struct MeetActiveView: View {
             VStack{
                 
                 
-                Text(matchID)
+                Text(matchID ?? "[Data error]")
                     .foregroundColor(.white)
                     .font(.title)
                     .fontWeight(.bold)
@@ -177,11 +180,9 @@ struct MeetActiveView: View {
 
 struct MeetActiveView_Previews: PreviewProvider {
     static var previews: some View {
-        MeetActiveView(matchID: .constant("Valerie Constantine"))
+        MeetActiveView(matchId: "Valerie Constantine")
             .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro Max"))
-        MeetActiveView(matchID: .constant("Valerie Constantine"))
+        MeetActiveView(matchId: "Valerie Constantine")
             .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
-
     }
 }
-

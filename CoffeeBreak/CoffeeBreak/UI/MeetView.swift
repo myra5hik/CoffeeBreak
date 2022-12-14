@@ -8,122 +8,100 @@
 import SwiftUI
 
 struct MeetView<M: IMatchService>: View {
-    
-    @State private var matchID = "Sample Name"
-    @State private var exitSearchWarning: Bool = false
-
+    // Dependencies
     @ObservedObject private var service: M
-    
+    // State
+    private var matchedPerson: Person.ID? {
+        if case .match(with: let id) = service.matchState { return id }
+        return nil
+    }
+    @State private var showingMatchScreenOverlay = false
+    @State private var showingCancelSearchAlert: Bool = false
+
     init(matchService: M) {
         self.service = matchService
     }
-    
-    @State private var takeABreakPressed = false
 
     var body: some View {
-        
-        VStack{
-            VStack(alignment: .leading, spacing: 4){
-                Spacer().frame(height: 60.0)
-                Text("Coffee Break")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                
-                Text("Find others who are taking a break \nand connect.")
-                    .font(.subheadline)
-                    .foregroundColor(CoffeeColors.subText)
-
-            }
-            Spacer().frame(height: 50.0)
-
-//            Image("funIllustration")
-//                .resizable()
-//                .aspectRatio(contentMode: .fit)
-//                .frame(width: 200.0)
-//                .opacity(0.5)
-
+        VStack {
+            header
             Spacer()
-            
-            
-            
-   
-         
-            Group{
-                switch service.matchState {
-                case .uninitiated:
-                    Text("Loading: State Uninitiated").foregroundColor(.white)
-                case .idle: MeetButton(text: "Take a Break", buttonClickable: true, state: .idle) {
-                    service.requestCoffeeBreak()
-                    
-                }
-                case .searching: MeetButton(text: "Searching...", buttonClickable: false, state: .searching) {
-                }
-                case .match(let counterpartId):
-                    let _ = print(counterpartId)
-                case .error(let error):
-                    Text(error.localizedDescription)
-                }
-                
-            }
-            .opacity(service.readyForRequests ? 1 : 0.1)
-            .fullScreenCover(isPresented: $takeABreakPressed,
-                             content: {MeetActiveView(matchID: $matchID)})
-            .onChange(of: service.matchState, perform: { state in
-                if case .match(with: let counterpartId) = state {
-                    matchID = counterpartId
-                    takeABreakPressed = true
-                }else{
-                    matchID = ""
-                    takeABreakPressed = false 
-                }
-                
-                if case .error(let error) = state {
-                    print(error)
-                }
-            })
-            Spacer().frame(height: 20.0)
-
-            if (service.matchState == .searching){
-                Button(action: {
-                    exitSearchWarning = true
-                    
-                }) {
-                    
-                    Text("Cancel Search")
-                        .bold()
-                        .foregroundColor(.red)
-                    
-                }
-                .confirmationDialog("Are you sure?",
-                  isPresented: $exitSearchWarning) {
-                  Button("End Search", role: .destructive) {
-                      service.cancelCoffeeBreakRequest()
-                   }
-                 }
-            }else{
-                Button(action: {
-                }) {
-                    
-                    Text("Cancel Search")
-                        .bold()
-                        .foregroundColor(.red)
-                }
-                .disabled(true)
-                .hidden()
-                
-            }
-  
-            Spacer().frame(height: 60.0)
- 
+            searchButton
+            Spacer()
+            Spacer()
         }
+        .overlay { cancellationButton.offset(y: 250) }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(CoffeeColors.backgroundColor)
+        .fullScreenCover(isPresented: $showingMatchScreenOverlay) {
+            MeetActiveView(matchId: matchedPerson)
+        }
+        .onChange(of: service.matchState) { state in
+            if case .match = state { showingMatchScreenOverlay = true; return }
+            showingMatchScreenOverlay = false
+        }
+    }
+
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Spacer().frame(height: 60.0)
+            Text("Coffee Break")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+
+            Text("Find others who are taking a break \nand connect.")
+                .font(.subheadline)
+                .foregroundColor(CoffeeColors.subText)
+
+        }
+    }
+
+    @ViewBuilder
+    private var searchButton: some View {
+        switch service.matchState {
+        case .uninitiated:
+            Text("Loading: State Uninitiated").foregroundColor(.white)
+        case .idle:
+            MeetButton(text: "Take a Break", buttonClickable: true, state: .idle) {
+                service.requestCoffeeBreak()
+            }
+        case .searching:
+            MeetButton(text: "Searching...", buttonClickable: false, state: .searching)
+        case .match:
+            EmptyView()
+        case .error(let error):
+            Text(error.localizedDescription)
+        }
+    }
+
+    @ViewBuilder
+    private var cancellationButton: some View {
+        let actionSheetButton = Button(
+            "End Search",
+            role: .destructive,
+            action: { service.cancelCoffeeBreakRequest() }
+        )
+
+        if (service.matchState == .searching) {
+            Button(action: {
+                showingCancelSearchAlert = true
+            }, label: {
+                Text("Cancel Search").bold().foregroundColor(.red)
+            })
+            .confirmationDialog(
+                "End Search",
+                isPresented: $showingCancelSearchAlert,
+                actions: { actionSheetButton }
+            )
+        }
     }
 }
 
-//struct MeetView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MeetView(matchService: <#_#>)
-//    }
-//}
+// MARK: - Previews
+
+struct MeetView_Previews: PreviewProvider {
+    static var previews: some View {
+        MeetView(matchService: StubMatchService(state: .match(with: "")))
+    }
+}
