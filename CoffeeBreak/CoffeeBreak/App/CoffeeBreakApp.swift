@@ -11,7 +11,7 @@ import FirebaseCore
 @main
 struct CoffeeBreakApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var delegate
-    private let screens: any IScreenFactory
+    private let screens: IScreenFactory
 
     init() {
         let services = ServicesModule()

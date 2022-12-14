@@ -150,8 +150,8 @@ private extension MatchService {
         let ownInterests = Set(currentUser.interests.map({ $0.rawValue }))
         let sortedQueue = queue.sorted(by: { $0.timeCreated <= $1.timeCreated })
         guard let ownPosition = sortedQueue.firstIndex(where: { $0.userId == currentUser.id }) else {
-            matchState = .idle
-            return
+            if case .match = matchState { return }
+            matchState = .idle; return
         }
         // Present in the queue
         currentUserQueuePosition = sortedQueue[ownPosition].id
@@ -247,5 +247,18 @@ extension MatchState: Equatable {
         default:
             return false
         }
+    }
+}
+
+// MARK: - Stub implementation
+
+final class StubMatchService: IMatchService {
+    var matchState: MatchState
+    var readyForRequests: Bool { true }
+    func requestCoffeeBreak() { }
+    func cancelCoffeeBreakRequest() { }
+
+    init(state: MatchState) {
+        self.matchState = state
     }
 }
