@@ -10,9 +10,9 @@ import FirebaseFirestore
 
 struct FBDTOLoungeRoom: Identifiable, Hashable {
     let id: String
-    let members: [Person.ID]
-    let timeCreated: Date
-    let timeExpires: Date
+    let members: [String]
+    let timeCreated: Timestamp
+    let timeExpires: Timestamp
 }
 
 // MARK: - IFirebaseDTO conformance
@@ -24,9 +24,9 @@ extension FBDTOLoungeRoom: IFirebaseDTO {
     
     init?(id: String, data: [String: Any]) {
         guard
-            let members = data[Keys.users.rawValue] as? [Person.ID],
-            let timeCreated = (data[Keys.timeCreated.rawValue] as? Timestamp)?.dateValue(),
-            let timeExpires = (data[Keys.timeExpires.rawValue] as? Timestamp)?.dateValue()
+            let members = data[Keys.users.rawValue] as? [String],
+            let timeCreated = data[Keys.timeCreated.rawValue] as? Timestamp,
+            let timeExpires = data[Keys.timeExpires.rawValue] as? Timestamp
         else { return nil }
 
         self.init(
@@ -37,11 +37,11 @@ extension FBDTOLoungeRoom: IFirebaseDTO {
         )
     }
     
-    func toDict() -> (id: String, [String : Any]) {
+    func toDict() -> (id: String, [String: Any]) {
         let data: [String: Any] = [
             Keys.users.rawValue: self.members,
-            Keys.timeCreated.rawValue: Timestamp(date: self.timeCreated),
-            Keys.timeExpires.rawValue: Timestamp(date: self.timeExpires)
+            Keys.timeCreated.rawValue: self.timeCreated,
+            Keys.timeExpires.rawValue: self.timeExpires
         ]
         return (id: id, data)
     }
@@ -54,8 +54,8 @@ extension FBDTOLoungeRoom: IDomainModelRepresentable {
         self.init(
             id: domainModel.id,
             members: domainModel.members,
-            timeCreated: domainModel.timeCreated,
-            timeExpires: domainModel.timeExpires
+            timeCreated: Timestamp(date: domainModel.timeCreated),
+            timeExpires: Timestamp(date: domainModel.timeExpires)
         )
     }
     
@@ -63,8 +63,8 @@ extension FBDTOLoungeRoom: IDomainModelRepresentable {
         return LoungeRoom(
             id: self.id,
             members: self.members,
-            timeCreated: self.timeCreated,
-            timeExpires: self.timeExpires
+            timeCreated: self.timeCreated.dateValue(),
+            timeExpires: self.timeExpires.dateValue()
         )
     }
 }
