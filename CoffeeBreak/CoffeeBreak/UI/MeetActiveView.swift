@@ -30,7 +30,7 @@ struct MeetActiveView: View {
             Text("Your coffee mate is...")
                 .foregroundColor(CoffeeColors.subText)
                 .font(.system(size: 20 + textSize))
-            Spacer().frame(height: 20 + textSize)
+            Spacer().frame(height: 10 + textSize)
             VStack{
                 
                 
@@ -43,7 +43,7 @@ struct MeetActiveView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(minWidth: 100, maxWidth: 200)
                 
-                Spacer().frame(height: 20)
+                Spacer().frame(height: 10+textSize)
 
                 HStack{
                     
@@ -53,8 +53,8 @@ struct MeetActiveView: View {
                         .bold()
                         .padding(.leading, 24)
                         .padding(.trailing, 24)
-                        .padding(.bottom, 10)
-                        .padding(.top, 10)
+                        .padding(.bottom, 8+textSize)
+                        .padding(.top, 8+textSize)
                         .background(Rectangle()
                             .fill(CoffeeColors.innerBox)
                             .cornerRadius(10))
@@ -63,8 +63,8 @@ struct MeetActiveView: View {
                         .bold()
                         .padding(.leading, 24)
                         .padding(.trailing, 24)
-                        .padding(.bottom, 10)
-                        .padding(.top, 10)
+                        .padding(.bottom, 8+textSize)
+                        .padding(.top, 8+textSize)
                         .background(Rectangle()
                             .fill(CoffeeColors.innerBox)
                             .cornerRadius(10))
@@ -76,8 +76,8 @@ struct MeetActiveView: View {
                     .bold()
                     .padding(.leading, 24)
                     .padding(.trailing, 24)
-                    .padding(.bottom, 10)
-                    .padding(.top, 10)
+                    .padding(.bottom, 8+textSize)
+                    .padding(.top, 8+textSize)
                     .background(Rectangle()
                         .fill(CoffeeColors.innerBox)
                         .cornerRadius(10)
@@ -87,7 +87,7 @@ struct MeetActiveView: View {
             
             //meeting point discussion VStack
             
-            Spacer().frame(height: 20)
+            Spacer().frame(height: 30)
 
             VStack{
                 Text("Tell them where to meet you:")
@@ -137,8 +137,8 @@ struct MeetActiveView: View {
                     Text("Connect Us")
                         .foregroundColor(CoffeeColors.innerBox)
                         .bold()
-                        .padding(.bottom, 16)
-                        .padding(.top, 16)
+                        .padding(.bottom, 20+textSize)
+                        .padding(.top, 20+textSize)
                         .frame(maxWidth: .infinity)
                         .background(.green).cornerRadius(10)
                         .opacity(0.9)
@@ -146,8 +146,7 @@ struct MeetActiveView: View {
                     
             }
             .padding()
-            .padding(.leading, 30)
-            .padding(.trailing, 30)
+        
             .background(CoffeeColors.innerBox.clipShape(RoundedRectangle(cornerRadius:10)))
             Spacer()
 
@@ -160,6 +159,7 @@ struct MeetActiveView: View {
                 Text("End Break")
                     .bold()
                     .foregroundColor(.red)
+                    .padding()
                 
             }
             .confirmationDialog("Are you sure?",
@@ -179,7 +179,7 @@ struct MeetActiveView_Previews: PreviewProvider {
     static var previews: some View {
         MeetActiveView(matchID: .constant("Valerie Constantine"))
             .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro Max"))
-        MeetActiveView(matchID: .constant("Valerie Constantine"))
+        MeetActiveView(matchID: .constant("Valerienesa Constantine"))
             .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
 
     }
