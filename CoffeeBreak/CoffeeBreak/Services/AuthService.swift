@@ -27,6 +27,7 @@ final class AuthService: ObservableObject, IAuthService {
         Auth.auth().signInAnonymously { [weak self] (result, error) in
             guard error == nil, let id = result?.user.uid else { return }
             self?._currentAuth = id
+            print(id)
         }
     }
 }

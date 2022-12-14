@@ -21,22 +21,27 @@ struct MeetActiveView: View {
 
     //ENTIRE PROFILE OF PERSON
     
+    @ScaledMetric var textSize: CGFloat = 1
+    
     var body: some View {
         
         VStack {
-            Spacer().frame(height: 40)
+            Spacer().frame(height: 20 + textSize)
             Text("Your coffee mate is...")
                 .foregroundColor(CoffeeColors.subText)
-                .font(.title)
-            Spacer().frame(height: 40)
+                .font(.system(size: 20 + textSize))
+            Spacer().frame(height: 20 + textSize)
             VStack{
                 
                 
                 Text(matchID)
                     .foregroundColor(.white)
-                    .font(.system(size: 40))
+                    .font(.title)
                     .fontWeight(.bold)
                 Image(imageLink)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(minWidth: 100, maxWidth: 200)
                 
                 Spacer().frame(height: 20)
 
@@ -113,7 +118,10 @@ struct MeetActiveView: View {
                 .alert("Profile link copied!", isPresented: $displayCopied) {
                             Button("OK") { }
                         }
-                .padding(16)
+                .padding(.leading, 10+textSize)
+                .padding(.trailing, 10+textSize)
+                .padding(.bottom, 20)
+                .padding(.top, 20)
                 .frame(maxWidth: .infinity)
                 .background(CoffeeColors.backgroundColor)   .cornerRadius(30)
                 .opacity(0.9)
@@ -169,7 +177,11 @@ struct MeetActiveView: View {
 
 struct MeetActiveView_Previews: PreviewProvider {
     static var previews: some View {
-        MeetActiveView(matchID: .constant("test value"))
+        MeetActiveView(matchID: .constant("Valerie Constantine"))
+            .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro Max"))
+        MeetActiveView(matchID: .constant("Valerie Constantine"))
+            .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
+
     }
 }
 

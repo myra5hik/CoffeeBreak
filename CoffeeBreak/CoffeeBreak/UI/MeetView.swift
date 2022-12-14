@@ -11,6 +11,7 @@ struct MeetView<M: IMatchService>: View {
     
     @State private var matchID = "Sample Name"
     @State private var exitSearchWarning: Bool = false
+
     @ObservedObject private var service: M
     
     init(matchService: M) {
@@ -36,34 +37,35 @@ struct MeetView<M: IMatchService>: View {
             }
             Spacer().frame(height: 50.0)
 
-            Image("funIllustration")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 200.0)
-                .opacity(0.5)
+//            Image("funIllustration")
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .frame(width: 200.0)
+//                .opacity(0.5)
 
             Spacer()
             
             
             
    
-            Button(action: {
-                service.requestCoffeeBreak()
-                
-            }) {
+         
+            Group{
                 switch service.matchState {
-                    case .uninitiated:
-                        Text("Loading: State Uninitiated").foregroundColor(.white)
-                    case .idle: Image("MeetButton").padding()
-                    case .searching: Image("searching").padding()
-                    case .match(let counterpartId):
-                        let _ = print(counterpartId)
-                    case .error(let error):
-                        Text(error.localizedDescription)
+                case .uninitiated:
+                    Text("Loading: State Uninitiated").foregroundColor(.white)
+                case .idle: MeetButton(text: "Take a Break", buttonClickable: true, state: .idle) {
+                    service.requestCoffeeBreak()
+                    
                 }
-  
-            }//end category item
-            .disabled(service.matchState == .uninitiated) //edit this!
+                case .searching: MeetButton(text: "Searching...", buttonClickable: false, state: .searching) {
+                }
+                case .match(let counterpartId):
+                    let _ = print(counterpartId)
+                case .error(let error):
+                    Text(error.localizedDescription)
+                }
+                
+            }
             .opacity(service.readyForRequests ? 1 : 0.1)
             .fullScreenCover(isPresented: $takeABreakPressed,
                              content: {MeetActiveView(matchID: $matchID)})
@@ -80,6 +82,7 @@ struct MeetView<M: IMatchService>: View {
                     print(error)
                 }
             })
+            Spacer().frame(height: 20.0)
 
             if (service.matchState == .searching){
                 Button(action: {
@@ -98,7 +101,18 @@ struct MeetView<M: IMatchService>: View {
                       service.cancelCoffeeBreakRequest()
                    }
                  }
-            }//end of cancel search button
+            }else{
+                Button(action: {
+                }) {
+                    
+                    Text("Cancel Search")
+                        .bold()
+                        .foregroundColor(.red)
+                }
+                .disabled(true)
+                .hidden()
+                
+            }
   
             Spacer().frame(height: 60.0)
  
@@ -110,6 +124,6 @@ struct MeetView<M: IMatchService>: View {
 
 //struct MeetView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        MeetView()
+//        MeetView(matchService: <#_#>)
 //    }
 //}

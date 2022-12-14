@@ -6,62 +6,106 @@
 //
 
 import SwiftUI
+
 struct MeetButton: View {
-    @State private var animationAmountFirst = 1.0
-    @State private var animationAmountSecond = 1.0
-    @State private var text: String
-    init () {
-        text = "Take a break"
-  
-    }
-    var body: some View {
-        Button(action: {
-            animationAmountFirst += 1
-            text = "Search in process..."
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                animationAmountSecond += 1
-            }
-        }) {
-            Text (text)
-         
-            
+    // Public
+    let text: String
+    let buttonClickable: Bool
+    let state: LoadingState
+    let action: (() -> Void)?
+    // Private
+    @State var animationAmountFirst = 1.0
+    @State var animationAmountSecond = 1.0
+
+    
+    func activateAnimation(){
+
+        animationAmountFirst += 1
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            animationAmountSecond += 1
         }
-        .padding(70)
-        .background(
-            LinearGradient(gradient: Gradient(colors: [ Color("Color"), Color("Color1")]), startPoint: .top, endPoint: .trailing)
-        )
-        .foregroundColor(.white)
-        .clipShape(Circle())
-        .overlay(
-            Circle()
-                .stroke(Color("Stroke"))
-                .scaleEffect(animationAmountFirst )
-                .opacity(2 - animationAmountFirst )
-                .animation(
-                    .easeInOut(duration: 2)
-                    .repeatForever(autoreverses: false),
-                    value: animationAmountFirst
-                )
-        )
-        .overlay(
-            Circle()
-                .stroke(Color("Stroke"))
-                .scaleEffect(animationAmountSecond)
-                .opacity(2 - animationAmountSecond)
-                .animation(
-                    .easeInOut(duration: 2)
-                    .repeatForever(autoreverses: false),
-                    value: animationAmountSecond
-                )
-        )
-        
+
+    }
+
+    
+    
+    init(text: String, buttonClickable: Bool, state: LoadingState, _ action: (() -> Void)? = nil) {
+        self.text = text
+        self.state = state
+        self.action = action
+        self.buttonClickable = buttonClickable
+    }
+    
+
+
+    var body: some View {
+        Button(action: action ?? { }) {
+            ZStack {
+                
+                Circle()
+                    .fill(LinearGradient(
+                    gradient: Gradient(stops: [
+                    .init(color: Color(#colorLiteral(red: 0.2905110716819763, green: 0.5666666626930237, blue: 0.16055557131767273, alpha: 1)), location: 0),
+                    .init(color: Color(#colorLiteral(red: 0.10416668653488159, green: 1, blue: 0.8924998641014099, alpha: 0.3100000023841858)), location: 1)]),
+                    startPoint: UnitPoint(x: 0.18045112971831223, y: 0.12781956192006852),
+                    endPoint: UnitPoint(x: 0.500000040277953, y: 1.0000000294662057)))
+
+                Circle()
+                .strokeBorder(Color(#colorLiteral(red: 0.19607843458652496, green: 0.843137264251709, blue: 0.29411765933036804, alpha: 1)), lineWidth: 3)
+                
+                Text(text).font(.system(size: 28, weight: .bold)).foregroundColor(.white)
+                    .tracking(-0.24).multilineTextAlignment(.center)
+            }
+            .compositingGroup()
+            .frame(width: 266, height: 266)
+            .shadow(color: Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.25)), radius: 6, x: 0, y: 6)
+            .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .stroke(Color(#colorLiteral(red: 0.19607843458652496, green: 0.843137264251709, blue: 0.29411765933036804, alpha: 1)), lineWidth: 5)
+                    .scaleEffect(animationAmountFirst )
+                    .opacity(2 - animationAmountFirst )
+                    .animation(
+                        .easeInOut(duration: 2)
+                        .repeatForever(autoreverses: false),
+                        value: animationAmountFirst
+                    )
+            )
+            .overlay(
+                Circle()
+                    .stroke(Color(#colorLiteral(red: 0.19607843458652496, green: 0.843137264251709, blue: 0.29411765933036804, alpha: 1)), lineWidth: 5)
+                    .scaleEffect(animationAmountSecond)
+                    .opacity(2 - animationAmountSecond)
+                    .animation(
+                        .easeInOut(duration: 2)
+                        .repeatForever(autoreverses: false),
+                        value: animationAmountSecond
+                    )
+            )
+
+
+        }
+        .disabled(!buttonClickable)
+        .onAppear {
+            if state == .searching{
+                activateAnimation()
+                
+            }
+        }
+    
+    
+}
+}
+
+extension MeetButton {
+    enum LoadingState {
+        case idle, searching, failed
     }
 }
 
-
 struct Button_Previews: PreviewProvider {
     static var previews: some View {
-        MeetButton()
+        MeetButton(text: "Take a Break", buttonClickable: false, state: .searching)
     }
 }
 
