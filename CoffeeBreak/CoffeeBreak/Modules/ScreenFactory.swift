@@ -31,7 +31,7 @@ final class ScreenFactory<SM: IServicesModule>: IScreenFactory {
     }
 
     func makeProfileView() -> AnyView {
-        AnyView(ProfileView())
+        AnyView(ProfileView(userService: services.user))
     }
 
     func makeHistoryView() -> AnyView {

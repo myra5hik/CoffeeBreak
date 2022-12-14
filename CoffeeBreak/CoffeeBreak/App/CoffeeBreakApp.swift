@@ -16,6 +16,13 @@ struct CoffeeBreakApp: App {
     init() {
         let services = ServicesModule()
         self.screens = ScreenFactory(services: services)
+        // Initialization
+    
+        // Assignments
+        self.networkService = network
+        self.authService = auth
+        self.userService = user
+        self.matchService = match
         // Auth -- in async block to trigger Firebase after App didFinishLaunching call
         DispatchQueue.main.async { [weak services] in
             services?.auth.authAnonymously()
