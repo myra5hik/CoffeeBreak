@@ -12,7 +12,7 @@
 		4107B1322940D1ED0022507E /* CoffeeColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1312940D1ED0022507E /* CoffeeColors.swift */; };
 		4107B1362940DCD70022507E /* MeetActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1352940DCD70022507E /* MeetActiveView.swift */; };
 		4107B1382940E32C0022507E /* InterestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1372940E32C0022507E /* InterestsView.swift */; };
-		4107B13A2940E6FB0022507E /* HistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1392940E6FB0022507E /* HistoryItem.swift */; };
+		410E3EEC294B6086004C22D1 /* HistoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410E3EEB294B6086004C22D1 /* HistoryDetailsView.swift */; };
 		67060F77EC529AE9813E7437 /* LoungeRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD698045DDD30EBC1D9834C8 /* LoungeRoom.swift */; };
 		6793B1C8294A7B6100B45CEB /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6793B1C7294A7B6100B45CEB /* Collection+Safe.swift */; };
 		758510338DA44F9771121745 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3CC1FBDC7B824E5A8767D /* NetworkService.swift */; };
@@ -48,7 +48,7 @@
 		4107B1312940D1ED0022507E /* CoffeeColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeColors.swift; sourceTree = "<group>"; };
 		4107B1352940DCD70022507E /* MeetActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetActiveView.swift; sourceTree = "<group>"; };
 		4107B1372940E32C0022507E /* InterestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsView.swift; sourceTree = "<group>"; };
-		4107B1392940E6FB0022507E /* HistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItem.swift; sourceTree = "<group>"; };
+		410E3EEB294B6086004C22D1 /* HistoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailsView.swift; sourceTree = "<group>"; };
 		4DF3CC1FBDC7B824E5A8767D /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		656350A01BC78C6C3004556D /* FBDTOPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBDTOPerson.swift; sourceTree = "<group>"; };
 		6793B1C7294A7B6100B45CEB /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
@@ -109,7 +109,7 @@
 			children = (
 				B65C104B293FA59D007D2B70 /* ContentView.swift */,
 				B65C10792940FD31007D2B70 /* HistoryView.swift */,
-				4107B1392940E6FB0022507E /* HistoryItem.swift */,
+				410E3EEB294B6086004C22D1 /* HistoryDetailsView.swift */,
 				F06052DF2948DDC100A35B13 /* MeetButton.swift */,
 				B65C10772940FD2B007D2B70 /* MeetView.swift */,
 				4107B1352940DCD70022507E /* MeetActiveView.swift */,
@@ -302,7 +302,6 @@
 				B65C1060293FB1AB007D2B70 /* FirebaseManager.swift in Sources */,
 				B65C108029478314007D2B70 /* AuthService.swift in Sources */,
 				4107B1362940DCD70022507E /* MeetActiveView.swift in Sources */,
-				4107B13A2940E6FB0022507E /* HistoryItem.swift in Sources */,
 				B65C104C293FA59D007D2B70 /* ContentView.swift in Sources */,
 				B65C10632940C1DA007D2B70 /* FBDTOMeetupQueueElement.swift in Sources */,
 				B65C10782940FD2B007D2B70 /* MeetView.swift in Sources */,
@@ -317,6 +316,7 @@
 				4107B1322940D1ED0022507E /* CoffeeColors.swift in Sources */,
 				3C4D31783DAA9D8666B7A176 /* MeetupQueueElement.swift in Sources */,
 				F06052E02948DDC100A35B13 /* MeetButton.swift in Sources */,
+				410E3EEC294B6086004C22D1 /* HistoryDetailsView.swift in Sources */,
 				D86BB22DB502CFB0BC3447FC /* Person.swift in Sources */,
 				758510338DA44F9771121745 /* NetworkService.swift in Sources */,
 				AE4436EC9652E1AC52E7C0EB /* FBDTOPerson.swift in Sources */,
