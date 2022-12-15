@@ -35,6 +35,8 @@
 		B65C107A2940FD31007D2B70 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C10792940FD31007D2B70 /* HistoryView.swift */; };
 		B65C107E29477724007D2B70 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C107D29477724007D2B70 /* UserService.swift */; };
 		B65C108029478314007D2B70 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B65C107F29478314007D2B70 /* AuthService.swift */; };
+		B6B26A62294B7AE400EFBE4D /* GroupedLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B26A61294B7AE400EFBE4D /* GroupedLabels.swift */; };
+		B6B26A65294B7DB900EFBE4D /* Loadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B26A64294B7DB900EFBE4D /* Loadable.swift */; };
 		BFC0B5E3A959E0015C64FAF1 /* MatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FC6468D920F79E6938298C /* MatchService.swift */; };
 		C4132B5933CBECFB339192CE /* DiscussionTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0B4AE0D661CF25F1E2AB05 /* DiscussionTopic.swift */; };
 		D86BB22DB502CFB0BC3447FC /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD54633F31C2897B55D986A6 /* Person.swift */; };
@@ -71,6 +73,8 @@
 		B65C10792940FD31007D2B70 /* HistoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		B65C107D29477724007D2B70 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		B65C107F29478314007D2B70 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		B6B26A61294B7AE400EFBE4D /* GroupedLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedLabels.swift; sourceTree = "<group>"; };
+		B6B26A64294B7DB900EFBE4D /* Loadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
 		F06052DF2948DDC100A35B13 /* MeetButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetButton.swift; sourceTree = "<group>"; };
 		FD698045DDD30EBC1D9834C8 /* LoungeRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoungeRoom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,6 +111,8 @@
 		AB47FDC4AE04F33320BD126E /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				B6B26A63294B7DAE00EFBE4D /* Utilities */,
+				B6B26A60294B7AC100EFBE4D /* Components */,
 				B65C104B293FA59D007D2B70 /* ContentView.swift */,
 				B65C10792940FD31007D2B70 /* HistoryView.swift */,
 				410E3EEB294B6086004C22D1 /* HistoryDetailsView.swift */,
@@ -208,6 +214,22 @@
 				B65C107F29478314007D2B70 /* AuthService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		B6B26A60294B7AC100EFBE4D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B6B26A61294B7AE400EFBE4D /* GroupedLabels.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B6B26A63294B7DAE00EFBE4D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B6B26A64294B7DB900EFBE4D /* Loadable.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		D96A3C3002D982C25418E320 /* Model */ = {
@@ -318,10 +340,12 @@
 				F06052E02948DDC100A35B13 /* MeetButton.swift in Sources */,
 				410E3EEC294B6086004C22D1 /* HistoryDetailsView.swift in Sources */,
 				D86BB22DB502CFB0BC3447FC /* Person.swift in Sources */,
+				B6B26A62294B7AE400EFBE4D /* GroupedLabels.swift in Sources */,
 				758510338DA44F9771121745 /* NetworkService.swift in Sources */,
 				AE4436EC9652E1AC52E7C0EB /* FBDTOPerson.swift in Sources */,
 				67060F77EC529AE9813E7437 /* LoungeRoom.swift in Sources */,
 				BFC0B5E3A959E0015C64FAF1 /* MatchService.swift in Sources */,
+				B6B26A65294B7DB900EFBE4D /* Loadable.swift in Sources */,
 				C4132B5933CBECFB339192CE /* DiscussionTopic.swift in Sources */,
 				B62503E5294A0C5A00BA17A8 /* ScreenFactory.swift in Sources */,
 				30AB8ABED85CB3307077B891 /* FBDTOLoungeRoom.swift in Sources */,

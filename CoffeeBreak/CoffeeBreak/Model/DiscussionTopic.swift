@@ -38,25 +38,7 @@ extension DiscussionTopic {
         case .uiDesign: return "UI Design"
         case .uxDesign: return "UX Design"
         case .gameDevelopment: return "Game Development"
-        default: return self.rawValue.uppercased()
+        default: return self.rawValue.capitalized
         }
-    }
-    
-    var allCases: [DiscussionTopic] {
-        [
-            Self.coding,
-            Self.design,
-            Self.food,
-            Self.football,
-            Self.gameDevelopment,
-            Self.gaming,
-            Self.hiking,
-            Self.skiing,
-            Self.sports,
-            Self.swift,
-            Self.swiftUi,
-            Self.uiDesign,
-            Self.uiKit
-        ]
     }
 }
