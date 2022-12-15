@@ -19,11 +19,11 @@ protocol IScreenFactory: AnyObject {
 
 // MARK: - Implementation
 
-final class ScreenFactory<SM: IServicesModule>: IScreenFactory {
+final class ScreenFactory<Services: IServicesModule>: IScreenFactory {
     // Private
-    private let services: SM
+    private let services: Services
 
-    init(services: SM) {
+    init(services: Services) {
         self.services = services
     }
 
@@ -36,7 +36,8 @@ final class ScreenFactory<SM: IServicesModule>: IScreenFactory {
     }
 
     func makeMeetActiveView(matchId: Person.ID?) -> AnyView {
-        AnyView(MeetActiveView(matchId: matchId))
+        let vm = MeetActiveView<Services.NS>.ViewModel(service: services.network, matchId: matchId)
+        return AnyView(MeetActiveView<Services.NS>(vm: vm))
     }
 
     func makeProfileView() -> AnyView {

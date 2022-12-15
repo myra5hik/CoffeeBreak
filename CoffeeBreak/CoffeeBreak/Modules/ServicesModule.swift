@@ -11,10 +11,12 @@ import Foundation
 
 protocol IServicesModule: AnyObject {
     associatedtype MS: IMatchService
+    associatedtype NS: INetworkService
     associatedtype US: IUserService
     associatedtype AS: IAuthService
 
     var match: MS { get }
+    var network: NS { get }
     var user: US { get }
     var auth: AS { get }
 }
@@ -28,6 +30,7 @@ final class ServicesModule: IServicesModule {
     typealias MS = MatchService<NS, US>
 
     let match: MS
+    let network: NS
     let user: US
     let auth: AS
 
@@ -40,6 +43,7 @@ final class ServicesModule: IServicesModule {
         let match = MatchService(networkService: network, userService: user)
         // Assignment
         self.match = match
+        self.network = network
         self.user = user
         self.auth = auth
     }
