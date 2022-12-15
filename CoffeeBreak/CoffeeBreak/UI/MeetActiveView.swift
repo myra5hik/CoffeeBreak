@@ -38,7 +38,7 @@ struct MeetActiveView: View {
                 
                 
                 Text(matchID ?? "[Data error]")
-                    .foregroundColor(.white)
+                    .foregroundColor(Color ("TextColor"))
                     .font(.title)
                     .fontWeight(.bold)
                 Image(imageLink)
@@ -162,7 +162,7 @@ struct MeetActiveView: View {
                 
                 Text("End Break")
                     .bold()
-                    .foregroundColor(.red)
+                    .foregroundColor(.brown)
                 
             }
             .confirmationDialog("Are you sure?",

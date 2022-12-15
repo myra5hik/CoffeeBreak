@@ -43,15 +43,22 @@ struct MeetButton: View {
             ZStack {
                 
                 Circle()
-                    .fill(LinearGradient(
-                    gradient: Gradient(stops: [
-                    .init(color: Color(#colorLiteral(red: 0.2905110716819763, green: 0.5666666626930237, blue: 0.16055557131767273, alpha: 1)), location: 0),
-                    .init(color: Color(#colorLiteral(red: 0.10416668653488159, green: 1, blue: 0.8924998641014099, alpha: 0.3100000023841858)), location: 1)]),
-                    startPoint: UnitPoint(x: 0.18045112971831223, y: 0.12781956192006852),
-                    endPoint: UnitPoint(x: 0.500000040277953, y: 1.0000000294662057)))
-
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color("MeetButtonColors"),
+                                Color("MeetButtonColorsSecond")],
+                            startPoint: UnitPoint(
+                                x: 0.18045112971831223,
+                                y: 0.12781956192006852),
+                            endPoint: UnitPoint(
+                                x: 0.500000040277953,
+                                y: 1.0000000294662057
+                            )
+                        )
+                    )
                 Circle()
-                .strokeBorder(Color(#colorLiteral(red: 0.19607843458652496, green: 0.843137264251709, blue: 0.29411765933036804, alpha: 1)), lineWidth: 3)
+.strokeBorder(Color("Stroke"), lineWidth: 3)
                 
                 Text(text).font(.system(size: 28, weight: .bold)).foregroundColor(.white)
                     .tracking(-0.24).multilineTextAlignment(.center)
@@ -62,7 +69,7 @@ struct MeetButton: View {
             .clipShape(Circle())
             .overlay(
                 Circle()
-                    .stroke(Color(#colorLiteral(red: 0.19607843458652496, green: 0.843137264251709, blue: 0.29411765933036804, alpha: 1)), lineWidth: 5)
+                    .stroke(Color("Stroke"), lineWidth: 5)
                     .scaleEffect(animationAmountFirst )
                     .opacity(2 - animationAmountFirst )
                     .animation(
@@ -73,7 +80,7 @@ struct MeetButton: View {
             )
             .overlay(
                 Circle()
-                    .stroke(Color(#colorLiteral(red: 0.19607843458652496, green: 0.843137264251709, blue: 0.29411765933036804, alpha: 1)), lineWidth: 5)
+                    .stroke(Color("Stroke"), lineWidth: 5)
                     .scaleEffect(animationAmountSecond)
                     .opacity(2 - animationAmountSecond)
                     .animation(
