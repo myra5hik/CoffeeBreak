@@ -90,23 +90,17 @@ struct ProfileView<U: IUserService> : View {
                             .padding(.horizontal, 30)
                         VStack(alignment: .leading){
                             Spacer().frame(height: 20.0)
-                            if isEditing {
-                                TextField("Your name:", text: $vm.editingName,axis: .vertical)
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    
-                            } else {
-                                Text(vm.currentProfile.name)
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    
-                            }
+                            TextField("Your name:", text: $vm.editingName,axis: .vertical)
+                                .foregroundColor(.white)
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .disabled(!isEditing)
+                                .frame(height: 50)
                             Spacer().frame(height: 10.0)
                             Text("Apple developer adcademy")
                                 .foregroundColor(.gray)
                                 .font(.title3)
+                                .lineLimit(2)
                             Spacer().frame(height: 20.0)
                             
                             Button(action: {
@@ -126,8 +120,7 @@ struct ProfileView<U: IUserService> : View {
                     } //end of header Hstack
                     Spacer().frame(height: 60.0)
                     
-                    VStack{
-                        
+                    VStack {
                         Text("Interested in...")
                             .foregroundColor(.white)
                             .font(.title)
