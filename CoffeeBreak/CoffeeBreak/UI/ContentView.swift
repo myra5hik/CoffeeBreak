@@ -14,29 +14,28 @@ struct ContentView<SF: IScreenFactory>: View {
     
     init(factory: SF) {
         self.factory = factory
-        UITabBar.appearance().unselectedItemTintColor = UIColor.white
+        UITabBar.appearance().unselectedItemTintColor = UIColor.label
     }
     
     var body: some View {
         TabView(selection: $tabViewSelection) {
             factory.makeHistoryView()
-                .preferredColorScheme(.dark)
                 .tabItem {
                     Label("History", systemImage: "clock")
                 }.tag(0)
-                .foregroundColor(.white)
+                .foregroundColor(Color("TextColor"))
             factory.makeMeetView()
-                .preferredColorScheme(.dark)
                 .tabItem {
                     Label("Coffee Break", systemImage: "cup.and.saucer.fill").environment(\.symbolVariants, .none)
                 }.tag(1)
+                .foregroundColor(Color("TextColor"))
             factory.makeProfileView()
-                .preferredColorScheme(.dark)
                 .tabItem {
                     Label("Profile", systemImage: "person.fill").environment(\.symbolVariants, .none)
                 }.tag(2)
+                .foregroundColor(Color("TextColor"))
         }
-        .accentColor(.red) //tabview end
+        .accentColor(Color("Stroke")) //tabview end
     }
 }
 

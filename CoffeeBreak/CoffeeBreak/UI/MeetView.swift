@@ -34,7 +34,7 @@ struct MeetView<M: IMatchService>: View {
         }
         .overlay { cancellationButton.offset(y: 250) }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(CoffeeColors.backgroundColor)
+        .background(CoffeeColors.meetViewBackground)
         .fullScreenCover(isPresented: $showingMatchScreenOverlay) {
             factory.makeMeetActiveView(matchId: matchedPerson)
         }
@@ -89,7 +89,7 @@ struct MeetView<M: IMatchService>: View {
             Button(action: {
                 showingCancelSearchAlert = true
             }, label: {
-                Text("Cancel Search").bold().foregroundColor(.red)
+                Text("Cancel Search").bold().foregroundColor(Color ( "Stroke"))
             })
             .confirmationDialog(
                 "End Search",

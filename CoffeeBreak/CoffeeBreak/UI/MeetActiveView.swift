@@ -42,7 +42,7 @@ struct MeetActiveView<NS: INetworkService>: View {
     private var profileHeader: some View {
         let text = vm.name.flatten(loadingState: " ", errorState: "[Data error]")
         return Text(text)
-            .foregroundColor(.white)
+            .foregroundColor(Color("TextColor"))
             .font(.title)
             .fontWeight(.bold)
     }

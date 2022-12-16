@@ -41,6 +41,7 @@
 		C4132B5933CBECFB339192CE /* DiscussionTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0B4AE0D661CF25F1E2AB05 /* DiscussionTopic.swift */; };
 		D86BB22DB502CFB0BC3447FC /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD54633F31C2897B55D986A6 /* Person.swift */; };
 		F06052E02948DDC100A35B13 /* MeetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06052DF2948DDC100A35B13 /* MeetButton.swift */; };
+		F0605316294B5C1500A35B13 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F0605315294B5C1500A35B13 /* Colors.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,7 @@
 		B6B26A61294B7AE400EFBE4D /* GroupedLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedLabels.swift; sourceTree = "<group>"; };
 		B6B26A64294B7DB900EFBE4D /* Loadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loadable.swift; sourceTree = "<group>"; };
 		F06052DF2948DDC100A35B13 /* MeetButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetButton.swift; sourceTree = "<group>"; };
+		F0605315294B5C1500A35B13 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		FD698045DDD30EBC1D9834C8 /* LoungeRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoungeRoom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,6 +164,7 @@
 				B65C105E293FAFF8007D2B70 /* Network */,
 				B62503E1294A07C100BA17A8 /* Modules */,
 				B65C104D293FA59E007D2B70 /* Assets.xcassets */,
+				F0605315294B5C1500A35B13 /* Colors.xcassets */,
 				B65C1057293FA6DF007D2B70 /* GoogleService-Info.plist */,
 				B65C104F293FA59E007D2B70 /* Preview Content */,
 			);
@@ -309,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B65C1051293FA59E007D2B70 /* Preview Assets.xcassets in Resources */,
+				F0605316294B5C1500A35B13 /* Colors.xcassets in Resources */,
 				B65C104E293FA59E007D2B70 /* Assets.xcassets in Resources */,
 				B65C1058293FA6DF007D2B70 /* GoogleService-Info.plist in Resources */,
 			);

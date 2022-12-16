@@ -117,7 +117,7 @@ struct ProfileView<U: IUserService> : View {
                                 
                             }) {
                                 Text(self.isEditing ? "Confirm" : "Edit")
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(Color ("TextColor"))
                                     .font(.subheadline)
                                     .underline()
                             }
@@ -176,7 +176,7 @@ struct ProfileView<U: IUserService> : View {
                     Spacer()
                     Text("Logout")
                         .underline()
-                        .foregroundColor(CoffeeColors.innerBox)
+                        .foregroundColor(Color ("TextColor"))
                     
                     Spacer()
                 }
