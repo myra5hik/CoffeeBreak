@@ -92,20 +92,20 @@ struct ProfileView<U: IUserService> : View {
                             Spacer().frame(height: 20.0)
                             if isEditing {
                                 TextField("Your name:", text: $vm.editingName,axis: .vertical)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(CoffeeColors.subText)
                                     .font(.title)
                                     .fontWeight(.bold)
                                     
                             } else {
                                 Text(vm.currentProfile.name)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(CoffeeColors.subText)
                                     .font(.title)
                                     .fontWeight(.bold)
                                     
                             }
                             Spacer().frame(height: 10.0)
                             Text("Apple developer adcademy")
-                                .foregroundColor(.gray)
+                                .foregroundColor(CoffeeColors.subText)
                                 .font(.title3)
                             Spacer().frame(height: 20.0)
                             
@@ -117,7 +117,7 @@ struct ProfileView<U: IUserService> : View {
                                 
                             }) {
                                 Text(self.isEditing ? "Confirm" : "Edit")
-                                    .foregroundColor(Color ("TextColor"))
+                                    .foregroundColor(CoffeeColors.subText)
                                     .font(.subheadline)
                                     .underline()
                             }
@@ -133,7 +133,7 @@ struct ProfileView<U: IUserService> : View {
                             .font(.title)
                             .fontWeight(.semibold)
                         Text("Click interests to edit:")
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color("OppositeTextColor"))
                             .font(.subheadline)
                         
                         Spacer().frame(height: 20.0)
@@ -153,7 +153,7 @@ struct ProfileView<U: IUserService> : View {
                             
                         }) {
                             Text("Discordapp.com/users/Roman")
-                                .foregroundColor(CoffeeColors.innerBox)
+                                .foregroundColor(.black)
                                 .opacity(0.75)
                             Image(systemName: "square.and.pencil")
                                 .fontWeight(.bold)

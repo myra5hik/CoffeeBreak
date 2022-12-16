@@ -50,7 +50,7 @@ struct MeetView<M: IMatchService>: View {
             Text("Coffee Break")
                 .font(.title)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(CoffeeColors.innerBox)
 
             Text("Find others who are taking a break \nand connect.")
                 .font(.subheadline)
