@@ -87,26 +87,22 @@ struct ProfileView<U: IUserService> : View {
                     Spacer().frame(height: 20.0)
                     HStack {
                         Image("ProfileImage")
-                            .padding(.horizontal, 30)
+                            .resizable()
+                            .aspectRatio(1.0, contentMode: .fit)
+                            .padding(.leading, 30)
+                            .padding(.trailing, 10)
                         VStack(alignment: .leading){
                             Spacer().frame(height: 20.0)
-                            if isEditing {
-                                TextField("Your name:", text: $vm.editingName,axis: .vertical)
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    
-                            } else {
-                                Text(vm.currentProfile.name)
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                    
-                            }
-                            Spacer().frame(height: 10.0)
+                            TextField("Your name:", text: $vm.editingName,axis: .vertical)
+                                .foregroundColor(.white)
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .disabled(!isEditing)
+                                .frame(height: 76)
                             Text("Apple developer adcademy")
                                 .foregroundColor(.gray)
                                 .font(.title3)
+                                .lineLimit(2)
                             Spacer().frame(height: 20.0)
                             
                             Button(action: {
@@ -123,11 +119,10 @@ struct ProfileView<U: IUserService> : View {
                             }
                             
                         }
-                    } //end of header Hstack
+                    }
                     Spacer().frame(height: 60.0)
                     
-                    VStack{
-                        
+                    VStack {
                         Text("Interested in...")
                             .foregroundColor(.white)
                             .font(.title)
