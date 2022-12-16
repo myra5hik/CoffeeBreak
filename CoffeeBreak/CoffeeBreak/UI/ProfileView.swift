@@ -87,7 +87,10 @@ struct ProfileView<U: IUserService> : View {
                     Spacer().frame(height: 20.0)
                     HStack {
                         Image("ProfileImage")
-                            .padding(.horizontal, 30)
+                            .resizable()
+                            .aspectRatio(1.0, contentMode: .fit)
+                            .padding(.leading, 30)
+                            .padding(.trailing, 10)
                         VStack(alignment: .leading){
                             Spacer().frame(height: 20.0)
                             TextField("Your name:", text: $vm.editingName,axis: .vertical)
@@ -95,8 +98,7 @@ struct ProfileView<U: IUserService> : View {
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .disabled(!isEditing)
-                                .frame(height: 50)
-                            Spacer().frame(height: 10.0)
+                                .frame(height: 76)
                             Text("Apple developer adcademy")
                                 .foregroundColor(.gray)
                                 .font(.title3)
@@ -117,7 +119,7 @@ struct ProfileView<U: IUserService> : View {
                             }
                             
                         }
-                    } //end of header Hstack
+                    }
                     Spacer().frame(height: 60.0)
                     
                     VStack {
