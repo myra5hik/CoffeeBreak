@@ -13,6 +13,7 @@
 		4107B1362940DCD70022507E /* MeetActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1352940DCD70022507E /* MeetActiveView.swift */; };
 		4107B1382940E32C0022507E /* InterestsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B1372940E32C0022507E /* InterestsView.swift */; };
 		410E3EEC294B6086004C22D1 /* HistoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 410E3EEB294B6086004C22D1 /* HistoryDetailsView.swift */; };
+		41EF66E3294CABBD00A26C63 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41EF66E2294CABBD00A26C63 /* HapticFeedback.swift */; };
 		67060F77EC529AE9813E7437 /* LoungeRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD698045DDD30EBC1D9834C8 /* LoungeRoom.swift */; };
 		6793B1C8294A7B6100B45CEB /* Collection+Safe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6793B1C7294A7B6100B45CEB /* Collection+Safe.swift */; };
 		758510338DA44F9771121745 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF3CC1FBDC7B824E5A8767D /* NetworkService.swift */; };
@@ -52,6 +53,7 @@
 		4107B1352940DCD70022507E /* MeetActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetActiveView.swift; sourceTree = "<group>"; };
 		4107B1372940E32C0022507E /* InterestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsView.swift; sourceTree = "<group>"; };
 		410E3EEB294B6086004C22D1 /* HistoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDetailsView.swift; sourceTree = "<group>"; };
+		41EF66E2294CABBD00A26C63 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		4DF3CC1FBDC7B824E5A8767D /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		656350A01BC78C6C3004556D /* FBDTOPerson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBDTOPerson.swift; sourceTree = "<group>"; };
 		6793B1C7294A7B6100B45CEB /* Collection+Safe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Safe.swift"; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 		B6B26A63294B7DAE00EFBE4D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				41EF66E2294CABBD00A26C63 /* HapticFeedback.swift */,
 				B6B26A64294B7DB900EFBE4D /* Loadable.swift */,
 			);
 			path = Utilities;
@@ -342,6 +345,7 @@
 				4107B1322940D1ED0022507E /* CoffeeColors.swift in Sources */,
 				3C4D31783DAA9D8666B7A176 /* MeetupQueueElement.swift in Sources */,
 				F06052E02948DDC100A35B13 /* MeetButton.swift in Sources */,
+				41EF66E3294CABBD00A26C63 /* HapticFeedback.swift in Sources */,
 				410E3EEC294B6086004C22D1 /* HistoryDetailsView.swift in Sources */,
 				D86BB22DB502CFB0BC3447FC /* Person.swift in Sources */,
 				B6B26A62294B7AE400EFBE4D /* GroupedLabels.swift in Sources */,
