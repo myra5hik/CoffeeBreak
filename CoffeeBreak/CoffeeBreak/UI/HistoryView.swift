@@ -35,10 +35,10 @@ struct historyRow: View {
                 VStack (alignment: .leading){
                     Text(name).fontWeight(.bold)
                     
-                        .foregroundColor(.white)
+                        .foregroundColor(CoffeeColors.oppositeTextColor)
                     Text(discordLink)
                         .font(.system(size: 10))
-                        .foregroundColor(.gray)
+                        .foregroundColor(CoffeeColors.oppositeTextColor)
                     
                     
                 }
@@ -46,14 +46,14 @@ struct historyRow: View {
                 
                 VStack(alignment: .center){
                     Text("19/11/22")
-                        .foregroundColor(.gray)
+                        .foregroundColor(CoffeeColors.oppositeTextColor)
                         .fontWeight(.light)
                     
                 }
                 Spacer().frame(width: 10.0)
                 
                 Image(systemName: "chevron.right")
-                    .foregroundColor(.gray)
+                    .foregroundColor(CoffeeColors.oppositeTextColor)
             }
         }
         .padding(20)
@@ -73,8 +73,9 @@ struct HistoryView: View {
     
     init() {
         let navBarAppearance = UINavigationBar.appearance()
-        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+      navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(CoffeeColors.subText)]
+       navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor(CoffeeColors.subText)]
+       
         navBarAppearance.backgroundColor = UIColor.clear
         navBarAppearance.barTintColor = UIColor(CoffeeColors.innerBox)
         
@@ -122,6 +123,7 @@ struct HistoryView: View {
                 }
                 .navigationBarTitle(Text("Match History"))
                 .background(CoffeeColors.backgroundColor)
+              
                 
             }
             
