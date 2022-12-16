@@ -82,7 +82,7 @@ struct MeetActiveView<NS: INetworkService>: View {
 
     private var meetBox: some View {
         VStack(spacing: 20) {
-            Text("Tell them where to meet you:").foregroundColor(.gray).bold()
+            Text("Tell them where to meet you:").foregroundColor(CoffeeColors.meetViewBackground).bold()
             connectButton
         }
         .padding()
@@ -101,10 +101,9 @@ struct MeetActiveView<NS: INetworkService>: View {
 
         return Button(action: action) {
             Text("Connect")
-                .foregroundColor(CoffeeColors.innerBox)
+                .foregroundColor(CoffeeColors.meetViewBackground)
                 .padding(.vertical, 16)
                 .frame(maxWidth: .infinity)
-                .opacity(0.9)
         }
         .buttonStyle(.borderedProminent)
         .tint(.green)

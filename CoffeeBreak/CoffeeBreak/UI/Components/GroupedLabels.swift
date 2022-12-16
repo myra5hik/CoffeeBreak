@@ -41,7 +41,7 @@ struct GroupedLabels: View {
 
     private func interestLabel(_ text: String) -> some View {
         Text(text)
-            .foregroundColor(.gray)
+            .foregroundColor(CoffeeColors.meetViewBackground)
             .bold()
             .padding(.horizontal, 24)
             .padding(.vertical, 10)
