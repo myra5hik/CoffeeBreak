@@ -18,7 +18,7 @@ struct HistoryStandard: Identifiable {
 
 
 struct historyRow: View {
-    
+
     @State var name: String
     @State var discordLink: String
     
@@ -67,7 +67,8 @@ struct HistoryView: View {
     
     @State private var name: String = ""
     @State private var goesToHistoryDetail: Bool = true
-    
+    let haptics = HapticFeedback()
+
     
     
     init() {
@@ -109,6 +110,8 @@ struct HistoryView: View {
                             {
                                 
                                 historyRow(name: history[value].name, discordLink: history[value].discordLink)
+                            }.onTapGesture{
+                                haptics.lightSelection.impactOccurred()
                             }
                             
                         }
@@ -125,11 +128,6 @@ struct HistoryView: View {
             
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
             
-
-        
-        
-        
-        
     }
 }
 
