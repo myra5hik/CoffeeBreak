@@ -168,10 +168,6 @@ struct ProfileView<U: IUserService> : View {
                     .padding(.leading, 30)
                     .padding(.trailing, 30)
                     .background(CoffeeColors.innerBox.clipShape(RoundedRectangle(cornerRadius:10)))
-                    Spacer()
-                    Text("Logout")
-                        .underline()
-                        .foregroundColor(Color ("TextColor"))
                     
                     Spacer()
                 }
