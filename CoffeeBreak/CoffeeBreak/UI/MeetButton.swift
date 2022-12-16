@@ -47,6 +47,7 @@ struct MeetButton: View {
                         LinearGradient(
                             colors: [
                                 CoffeeColors.MeetButtonColor,
+                                CoffeeColors.MeetButtonSecondColor
                                 ],
                             startPoint: UnitPoint(
                                 x: 0.18045112971831223,
