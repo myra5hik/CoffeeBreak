@@ -11,6 +11,7 @@ struct MeetView<M: IMatchService>: View {
     // Dependencies
     @ObservedObject private var service: M
     let factory: any IScreenFactory
+    let haptics = HapticFeedback()
     // State
     private var matchedPerson: Person.ID? {
         if case .match(with: let id) = service.matchState { return id }
@@ -67,6 +68,7 @@ struct MeetView<M: IMatchService>: View {
         case .idle:
             MeetButton(text: "Take a Break", buttonClickable: true, state: .idle) {
                 service.requestCoffeeBreak()
+                haptics.bigButton.impactOccurred()
             }
         case .searching:
             MeetButton(text: "Searching...", buttonClickable: false, state: .searching)
